@@ -717,11 +717,11 @@
         </div>
     </div>
 
-    <!-- Modal Multitimer (Tiempo Personalizado) -->
+    <!-- Modal Multitimer (Solitario con Tiempo Personalizado) -->
     <div class="modal-overlay" id="modal-multitimer">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title">Modo Multitimer</span>
+                <span class="modal-title">Modo Multitimer (Solitario)</span>
                 <button class="close-modal" onclick="cerrarModalMultitimer()">✕</button>
             </div>
             <div class="modal-body">
@@ -737,20 +737,13 @@
                         </select>
                     </div>
 
-                    <button class="btn-gen-code" onclick="generarCodigoMultijugador('multitimer-code-input')">Crear Sala con Tiempo Personalizado</button>
-                    
-                    <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted);">o unirse a sala multitimer existente:</div>
-                    
-                    <div class="code-input-group">
-                        <input type="text" id="multitimer-code-input" placeholder="CÓDIGO" maxlength="6">
-                        <button onclick="unirseASalaMultitimer()">UNIRSE</button>
-                    </div>
+                    <button class="btn-gen-code" onclick="iniciarModoMultitimerSolitario()">JUGAR EN SOLITARIO</button>
 
                     <div class="rules-card">
-                        <h4>Mecánica del Modo Multitimer:</h4>
-                        <p>1. Configura la duración de la partida a tu gusto, manteniendo los 3 minutos predeterminados o estableciendo un nuevo límite.</p>
-                        <p>2. Genera una nueva sala con el tiempo seleccionado y comparte el código exclusivo con tus competidores.</p>
-                        <p>3. Todos competirán con exactamente las mismas letras y duraciones de temporizador de manera simultánea.</p>
+                        <h4>Instrucciones del Modo Multitimer:</h4>
+                        <p>1. Ajusta la duración de tu partida según el desafío que busques.</p>
+                        <p>2. Puedes mantener los 3 minutos predeterminados o probar partidas más rápidas de 1 o 2 minutos, o más largas de 5 o 10 minutos.</p>
+                        <p>3. Modo individual pensado para poner a prueba tu agilidad mental a tu propio ritmo.</p>
                     </div>
                 </div>
             </div>
@@ -1131,7 +1124,7 @@
             });
         }
 
-        // --- SISTEMA MULTIJUGADOR Y MULTITIMER POR CÓDIGO ---
+        // --- SISTEMA MULTIJUGADOR Y MULTITIMER ---
         function stringToSeed(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
@@ -1159,14 +1152,17 @@
             seedActual = stringToSeed(code);
             tiempoConfigurado = duracion;
             cerrarModalMultiplayer();
-            cerrarModalMultitimer();
             iniciarTurno();
             mostrarFeedback(`Sala Multijugador: ${code} (${duracion / 60}m)`, 'success');
         }
 
-        function unirseASalaMultitimer() {
+        function iniciarModoMultitimerSolitario() {
             const duracion = parseInt(document.getElementById('custom-time-select').value, 10);
-            unirseASala('multitimer-code-input', duracion);
+            isMultiplayer = false;
+            tiempoConfigurado = duracion;
+            cerrarModalMultitimer();
+            iniciarTurno();
+            mostrarFeedback(`Partida Solitaria (${duracion / 60} min)`, 'success');
         }
 
         function abrirModalMultiplayer() {
