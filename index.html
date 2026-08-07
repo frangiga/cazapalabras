@@ -486,14 +486,25 @@
             background: rgba(0,0,0,0.3);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 10px;
-            font-size: 0.78rem;
+            padding: 12px;
+            font-size: 0.8rem;
             color: var(--text-muted);
+            text-align: center;
         }
 
         .rules-card h4 {
             color: var(--yellow-medium);
-            margin-bottom: 4px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .rules-card p {
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .rules-card p:last-child {
+            margin-bottom: 0;
         }
 
         .words-grid {
@@ -670,10 +681,10 @@
                 <button class="close-modal" onclick="cerrarAyuda()">✕</button>
             </div>
             <div class="modal-body help-text">
-                <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p>
-                <p>1. Pulsa en <strong>"Nueva Tirada"</strong> para obtener 1 vocal y 2 consonantes.</p>
-                <p>2. Escribe palabras válidas usando el teclado que contengan obligatoriamente las tres letras requeridas.</p>
-                <p>3. Tienes <strong>3 minutos</strong> por turno. Los fallos no restan puntos.</p>
+                <p style="text-align: center; margin-bottom: 8px;"><strong>¡Bienvenido a CAZAPALABRAS!</strong></p>
+                <p style="text-align: center; margin-bottom: 6px;">1. Pulsa en <strong>"Nueva Tirada"</strong> para obtener 1 vocal y 2 consonantes.</p>
+                <p style="text-align: center; margin-bottom: 6px;">2. Escribe palabras válidas usando el teclado que contengan obligatoriamente las tres letras requeridas.</p>
+                <p style="text-align: center;">3. Tienes <strong>3 minutos</strong> por turno. Los fallos no restan puntos.</p>
             </div>
         </div>
     </div>
