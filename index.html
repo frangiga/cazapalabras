@@ -1,225 +1,489 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cazapalabras Web</title>
-  <style>
-    :root {
-      --primary: #ff6f00;
-      --primary-hover: #e66400;
-      --bg: #f4f1ea;
-      --card-bg: #ffffff;
-      --text: #2c3e50;
-      --border: #dcd6cd;
-      --error: #d9534f;
-      --success: #27ae60;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CAZAPALABRAS - fran_giga</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-card: #1e1e1e;
+            --green-neon: #00ff88;
+            --yellow-neon: #ccff00;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --border-color: #333333;
+        }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 15px;
-      box-sizing: border-box;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    .container {
-      background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      padding: 24px;
-      width: 100%;
-      max-width: 480px;
-      text-align: center;
-    }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            overflow-x: hidden;
+        }
 
-    h1 { margin: 0 0 16px 0; font-size: 1.8rem; }
+        /* Estilo del Header */
+        header {
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    /* Estilos del Footer */
-    footer {
-      margin-top: 25px;
-      font-size: 0.85rem;
-      color: #7f8c8d;
-    }
-    footer a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: bold;
-    }
-    footer a:hover { text-decoration: underline; }
+        h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--green-neon), var(--yellow-neon));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
 
-    /* ... resto de estilos anteriores ... */
-    .dice-container { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
-    .die { width: 64px; height: 64px; background: #ffffff; border: 3px solid var(--text); border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 2rem; font-weight: bold; box-shadow: 0 4px 0 var(--text); transition: transform 0.2s ease; }
-    .die.highlight { border-color: var(--primary); color: var(--primary); box-shadow: 0 4px 0 var(--primary); }
-    .die.shake { animation: shake 0.4s ease-in-out; }
-    @keyframes shake { 0%, 100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-6px) rotate(-8deg); } 75% { transform: translateY(6px) rotate(8deg); } }
-    .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px 16px; background: #eee9e0; border-radius: 8px; font-weight: bold; }
-    .timer { font-size: 1.2rem; color: var(--primary); }
-    .controls { display: flex; gap: 10px; margin-bottom: 20px; }
-    button { background-color: var(--primary); color: white; border: none; padding: 12px 20px; font-size: 1rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: background 0.2s; flex: 1; }
-    button:hover { background-color: var(--primary-hover); }
-    button:disabled { background-color: #ccc; cursor: not-allowed; }
-    .input-group { display: flex; gap: 10px; margin-bottom: 12px; }
-    input[type="text"] { flex: 1; padding: 12px; font-size: 1rem; border: 2px solid var(--border); border-radius: 8px; outline: none; text-transform: uppercase; }
-    input[type="text"]:focus { border-color: var(--primary); }
-    .feedback { min-height: 24px; font-weight: bold; margin-bottom: 16px; font-size: 0.95rem; }
-    .feedback.error { color: var(--error); }
-    .feedback.success { color: var(--success); }
-    .word-list { list-style: none; padding: 0; margin: 0; max-height: 180px; overflow-y: auto; border-top: 2px solid var(--bg); padding-top: 10px; display: flex; flex-wrap: wrap; gap: 8px; }
-    .word-tag { background: #eef7f2; border: 1px solid var(--success); color: #1e7e34; padding: 6px 12px; border-radius: 16px; font-size: 0.9rem; font-weight: 500; }
-  </style>
+        /* Marcador y Tiempo */
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .stat-value.time {
+            color: var(--green-neon);
+        }
+
+        /* Contenedor de Dados Interactivos */
+        .dice-section {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 25px;
+        }
+
+        .die-container {
+            text-align: center;
+            flex: 1;
+        }
+
+        .die {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--bg-dark);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        /* Neon Glows por tipo de dado */
+        .die.vocal {
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            border: 2px solid var(--green-neon);
+            background: var(--green-neon);
+        }
+
+        .die.consonante-1 {
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+            border: 2px solid var(--green-neon);
+            background: var(--green-neon);
+        }
+
+        .die.consonante-2 {
+            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+            border: 2px solid var(--yellow-neon);
+            background: var(--yellow-neon);
+        }
+
+        .die.shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-5deg); }
+            75% { transform: translateX(5px) rotate(5deg); }
+        }
+
+        .die-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        /* Área de Validación */
+        .validador-section {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            flex: 2;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--yellow-neon);
+        }
+
+        button.validate-btn {
+            flex: 1;
+            background-color: var(--green-neon);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        button.new-roll-btn {
+            width: 100%;
+            background-color: var(--yellow-neon);
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Lista de Palabras */
+        .palabras-section {
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 30px;
+        }
+
+        .word-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .word-tag {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .word-tag.green {
+            background-color: rgba(0, 255, 136, 0.1);
+            color: var(--green-neon);
+            border: 1px solid var(--green-neon);
+        }
+
+        .word-tag.yellow {
+            background-color: rgba(204, 255, 0, 0.1);
+            color: var(--yellow-neon);
+            border: 1px solid var(--yellow-neon);
+        }
+
+        /* Footer */
+        footer {
+            width: 100%;
+            max-width: 480px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto;
+        }
+
+        footer a {
+            color: var(--green-neon);
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Cazapalabras</h1>
+    <header>
+        <h1>CAZAPALABRAS</h1>
+    </header>
 
-  <div class="dice-container">
-    <div class="die highlight" id="die1">?</div>
-    <div class="die" id="die2">?</div>
-    <div class="die" id="die3">?</div>
-  </div>
+    <div class="stats-container">
+        <div class="stat-box">
+            <div class="stat-label">Puntuación</div>
+            <div class="stat-value" id="score">0</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Tiempo</div>
+            <div class="stat-value time" id="timer">1:00</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Récord</div>
+            <div class="stat-value" id="record">0</div>
+        </div>
+    </div>
 
-  <div class="status-bar">
-    <span>Tiempo: <span class="timer" id="timer">60</span>s</span>
-    <span>Aciertos: <span id="score">0</span></span>
-  </div>
+    <div class="dice-section">
+        <div class="die-container">
+            <div class="die vocal" id="die1">?</div>
+            <div class="die-label">Vocal 1</div>
+        </div>
+        <div class="die-container">
+            <div class="die consonante-1" id="die2">?</div>
+            <div class="die-label">Consonante 1</div>
+        </div>
+        <div class="die-container">
+            <div class="die consonante-2" id="die3">?</div>
+            <div class="die-label">Consonante 2</div>
+        </div>
+    </div>
 
-  <div class="controls">
-    <button id="roll-btn" onclick="iniciarTurno()">Tirar dados</button>
-  </div>
+    <div class="validador-section">
+        <div class="section-title">Validador</div>
+        <div class="input-group">
+            <input type="text" id="word-input" placeholder="TU PALABRA AQUÍ..." disabled>
+            <button class="validate-btn" id="validate-btn" onclick="validarPalabra()" disabled>✓ Validar</button>
+        </div>
+        <button class="new-roll-btn" id="roll-btn" onclick="iniciarTurno()">⟳ Nueva Tirada</button>
+    </div>
 
-  <div class="input-group">
-    <input type="text" id="word-input" placeholder="Escribe tu palabra..." disabled autocomplete="off">
-    <button id="submit-btn" onclick="validarPalabra()" disabled>Enviar</button>
-  </div>
+    <div class="palabras-section">
+        <div class="section-title">Palabras Encontradas (<span id="word-count">0</span>)</div>
+        <div class="word-list" id="word-list">
+            <!-- Las palabras aparecerán aquí -->
+        </div>
+    </div>
 
-  <div class="feedback" id="feedback"></div>
+    <footer>
+        © fran_giga - Ver. 1.1<br>
+        <a href="https://instagram.com/fran_giga" target="_blank">instagram.com/fran_giga</a>
+    </footer>
 
-  <ul class="word-list" id="word-list"></ul>
+    <script>
+        // Lógica del Juego
+        const dadoVocales = ['A', 'E', 'O', 'I', 'U', 'E'];
+        const dadoConsonantes1 = ['S', 'R', 'N', 'L', 'T', 'D'];
+        const dadoConsonantes2 = ['C', 'M', 'P', 'B', 'G', 'V'];
 
-  <footer>
-    Creado por <a href="https://instagram.com/fran_giga" target="_blank">fran_giga</a>
-  </footer>
-</div>
+        let letrasActuales = [];
+        let palabrasAceptadas = new Set();
+        let puntuacion = 0;
+        let tiempoRestante = 60;
+        let temporizador = null;
+        let enJuego = false;
 
-<script>
-  // Caras de los dados
-  const dadoVocales = ['A', 'E', 'O', 'I', 'U', 'E'];
-  const dadoConsonantes1 = ['S', 'R', 'N', 'L', 'T', 'D'];
-  const dadoConsonantes2 = ['C', 'M', 'P', 'B', 'G', 'V'];
+        const elDice = [document.getElementById('die1'), document.getElementById('die2'), document.getElementById('die3')];
+        const elTimer = document.getElementById('timer');
+        const elScore = document.getElementById('score');
+        const elRecord = document.getElementById('record');
+        const elInput = document.getElementById('word-input');
+        const elValidateBtn = document.getElementById('validate-btn');
+        const elWordList = document.getElementById('word-list');
+        const elWordCount = document.getElementById('word-count');
 
-  let letrasActuales = [];
-  let palabrasAceptadas = new Set();
-  let tiempoRestante = 60;
-  let temporizador = null;
-  let enJuego = false;
+        // Cargar récord local
+        let recordLocal = localStorage.getItem('cazapalabras_record') || 0;
+        elRecord.textContent = recordLocal;
 
-  const elDie1 = document.getElementById('die1');
-  const elDie2 = document.getElementById('die2');
-  const elDie3 = document.getElementById('die3');
-  const elTimer = document.getElementById('timer');
-  const elScore = document.getElementById('score');
-  const elInput = document.getElementById('word-input');
-  const elSubmitBtn = document.getElementById('submit-btn');
-  const elRollBtn = document.getElementById('roll-btn');
-  const elFeedback = document.getElementById('feedback');
-  const elWordList = document.getElementById('word-list');
+        function tirarDados() {
+            const d1 = dadoVocales[Math.floor(Math.random() * dadoVocales.length)];
+            const d2 = dadoConsonantes1[Math.floor(Math.random() * dadoConsonantes1.length)];
+            const d3 = dadoConsonantes2[Math.floor(Math.random() * dadoConsonantes2.length)];
 
-  elInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') validarPalabra(); });
+            // Animación de agitar
+            elDice.forEach(die => die.classList.add('shake'));
+            setTimeout(() => elDice.forEach(die => die.classList.remove('shake')), 400);
 
-  function tirarDados() {
-    const d1 = dadoVocales[Math.floor(Math.random() * dadoVocales.length)];
-    const d2 = dadoConsonantes1[Math.floor(Math.random() * dadoConsonantes1.length)];
-    const d3 = dadoConsonantes2[Math.floor(Math.random() * dadoConsonantes2.length)];
+            elDice[0].textContent = d1;
+            elDice[1].textContent = d2;
+            elDice[2].textContent = d3;
 
-    [elDie1, elDie2, elDie3].forEach(d => { d.classList.add('shake'); });
-    setTimeout(() => [elDie1, elDie2, elDie3].forEach(d => d.classList.remove('shake')), 400);
+            return [d1, d2, d3];
+        }
 
-    elDie1.textContent = d1;
-    elDie2.textContent = d2;
-    elDie3.textContent = d3;
-    return [d1, d2, d3];
-  }
+        function iniciarTurno() {
+            clearInterval(temporizador);
+            palabrasAceptadas.clear();
+            elWordList.innerHTML = '';
+            elWordCount.textContent = '0';
+            puntuacion = 0;
+            elScore.textContent = '0';
+            
+            letrasActuales = tirarDados();
+            
+            tiempoRestante = 60;
+            actualizarTimerDisplay();
+            enJuego = true;
 
-  function iniciarTurno() {
-    clearInterval(temporizador);
-    palabrasAceptadas.clear();
-    elWordList.innerHTML = '';
-    elScore.textContent = '0';
-    elFeedback.textContent = '';
-    letrasActuales = tirarDados();
-    tiempoRestante = 60;
-    elTimer.textContent = tiempoRestante;
-    enJuego = true;
-    elInput.disabled = false;
-    elSubmitBtn.disabled = false;
-    elRollBtn.textContent = 'Nueva tirada';
-    elInput.value = '';
-    elInput.focus();
+            elInput.disabled = false;
+            elValidateBtn.disabled = false;
+            elInput.value = '';
+            elInput.focus();
 
-    temporizador = setInterval(() => {
-      tiempoRestante--;
-      elTimer.textContent = tiempoRestante;
-      if (tiempoRestante <= 0) finalizarTurno('¡Tiempo agotado!');
-    }, 1000);
-  }
+            temporizador = setInterval(() => {
+                tiempoRestante--;
+                actualizarTimerDisplay();
 
-  function finalizarTurno(mensaje) {
-    clearInterval(temporizador);
-    enJuego = false;
-    elInput.disabled = true;
-    elSubmitBtn.disabled = true;
-    elFeedback.textContent = mensaje + ` Total: ${palabrasAceptadas.size} palabras.`;
-    elFeedback.className = 'feedback error';
-  }
+                if (tiempoRestante <= 0) {
+                    finalizarTurno();
+                }
+            }, 1000);
+        }
 
-  function normalizar(texto) { return texto.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim(); }
+        function actualizarTimerDisplay() {
+            let minutos = Math.floor(tiempoRestante / 60);
+            let segundos = tiempoRestante % 60;
+            elTimer.textContent = `${minutos}:${segundos < 10 ? '0' : ''}${segundos}`;
+        }
 
-  async function validarPalabra() {
-    if (!enJuego) return;
-    const palabra = normalizar(elInput.value);
-    if (!palabra) return;
+        function finalizarTurno() {
+            clearInterval(temporizador);
+            enJuego = false;
+            elInput.disabled = true;
+            elValidateBtn.disabled = true;
+            
+            // Guardar récord si aplica
+            if (puntuacion > recordLocal) {
+                recordLocal = puntuacion;
+                localStorage.setItem('cazapalabras_record', recordLocal);
+                elRecord.textContent = recordLocal;
+            }
+        }
 
-    if (palabrasAceptadas.has(palabra)) {
-      elFeedback.textContent = `¡Ya has usado "${palabra}"!`;
-      elFeedback.className = 'feedback error';
-      elInput.value = '';
-      return;
-    }
+        function normalizar(texto) {
+            return texto.toUpperCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .trim();
+        }
 
-    const letrasPalabra = palabra.split('');
-    const contieneTodas = letrasActuales.every(letra => {
-      const idx = letrasPalabra.indexOf(letra);
-      if (idx !== -1) { letrasPalabra.splice(idx, 1); return true; }
-      return false;
-    });
+        function validarPalabra() {
+            if (!enJuego) return;
+            const palabra = normalizar(elInput.value);
+            if (!palabra || palabra.length < 3) {
+                elInput.value = '';
+                return;
+            }
 
-    if (!contieneTodas) {
-      elFeedback.textContent = `Debe contener las letras: ${letrasActuales.join(', ')}`;
-      elFeedback.className = 'feedback error';
-    } else {
-      palabrasAceptadas.add(palabra);
-      elScore.textContent = palabrasAceptadas.size;
-      const tag = document.createElement('li');
-      tag.className = 'word-tag';
-      tag.textContent = palabra;
-      elWordList.prepend(tag);
-      elFeedback.textContent = '¡Palabra válida!';
-      elFeedback.className = 'feedback success';
-    }
-    elInput.value = '';
-    elInput.focus();
-  }
-</script>
+            if (palabrasAceptadas.has(palabra)) {
+                elInput.value = '';
+                return;
+            }
 
+            const letrasPalabra = palabra.split('');
+            const contieneTodas = letrasActuales.every(letra => {
+                const idx = letrasPalabra.indexOf(letra);
+                if (idx !== -1) {
+                    letrasPalabra.splice(idx, 1);
+                    return true;
+                }
+                return false;
+            });
+
+            if (contieneTodas) {
+                // Registrar palabra válida
+                palabrasAceptadas.add(palabra);
+                
+                // Puntuación: 1 punto por letra
+                puntuacion += palabra.length;
+                elScore.textContent = puntuacion;
+                elWordCount.textContent = palabrasAceptadas.size;
+
+                // Añadir tag visual
+                const tag = document.createElement('div');
+                const colorClass = palabrasAceptadas.size % 2 === 0 ? 'green' : 'yellow';
+                tag.className = `word-tag ${colorClass}`;
+                tag.textContent = `${palabra} (${palabra.length})`;
+                elWordList.prepend(tag);
+            }
+
+            elInput.value = '';
+            elInput.focus();
+        }
+
+        // Permitir Enter para validar
+        elInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') validarPalabra();
+        });
+    </script>
 </body>
 </html>
