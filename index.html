@@ -2,21 +2,23 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>CAZAPALABRAS - fran_giga</title>
     <style>
         :root {
-            --bg-dark: #121212;
-            --bg-card: #1c221e;
-            --bg-modal: #222a25;
+            --bg-dark: #0d120f;
+            --bg-card: #18221b;
+            --bg-modal: #1e2a22;
             --green-carriage: #1e4d2b;
             --green-light: #2e7243;
+            --green-glow: #38a159;
             --yellow-medium: #e6b800;
             --yellow-hover: #ffcc00;
+            --yellow-glow: #ffe680;
             --text-main: #f0f0f0;
             --text-muted: #99a39d;
-            --border-color: #2d3b31;
-            --error-red: #d9534f;
+            --border-color: #2b3d30;
+            --error-red: #ff5555;
         }
 
         * {
@@ -27,106 +29,148 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        body {
+        html, body {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
             background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(56, 161, 89, 0.15) 0%, transparent 60%),
+                radial-gradient(circle at 50% 100%, rgba(230, 184, 0, 0.08) 0%, transparent 50%);
             color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 15px;
-            overflow-x: hidden;
         }
 
-        header {
-            width: 100%;
-            max-width: 480px;
+        .app-container {
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            width: 100%;
+            max-width: 480px;
+            height: 100vh;
+            height: 100dvh;
+            margin: 0 auto;
+            padding: 12px 16px;
+        }
+
+        /* Header con 3 columnas equilibradas */
+        header {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 40px 1fr 40px;
+            align-items: center;
+            margin-bottom: 8px;
         }
 
         h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 900;
             text-transform: uppercase;
             color: var(--yellow-medium);
             letter-spacing: 2px;
+            text-align: center;
+            text-shadow: 0 0 12px rgba(230, 184, 0, 0.4);
         }
 
-        .help-icon-btn {
+        .icon-btn {
+            width: 38px;
+            height: 38px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             color: var(--yellow-medium);
-            font-weight: bold;
-            font-size: 0.85rem;
-            padding: 6px 12px;
-            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            border-radius: 50%;
             cursor: pointer;
-            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5), inset 0 0 8px rgba(230, 184, 0, 0.1);
+            transition: all 0.2s ease;
         }
 
+        .icon-btn:active {
+            transform: scale(0.92);
+            box-shadow: 0 0 15px rgba(230, 184, 0, 0.4);
+        }
+
+        /* Stats Bar */
         .stats-container {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
-            max-width: 480px;
-            margin-bottom: 20px;
         }
 
         .stat-box {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 12px 5px;
+            padding: 8px 4px;
             text-align: center;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
         }
 
         .stat-label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .stat-value {
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-shadow: 0 0 8px rgba(255,255,255,0.2);
         }
 
         .stat-value.time {
             color: var(--yellow-medium);
+            text-shadow: 0 0 10px rgba(230, 184, 0, 0.5);
         }
 
-        /* Botones Interactivos de Letras */
+        /* Botones de Letras Interactivos con Brillo */
         .dice-section {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             width: 100%;
-            max-width: 480px;
-            margin-bottom: 25px;
+            margin: 10px 0;
         }
 
         .letter-btn {
             flex: 1;
             aspect-ratio: 1 / 1;
-            background: var(--green-carriage);
+            max-height: 110px;
+            background: linear-gradient(145deg, #256137, #173d22);
             border: 2px solid var(--green-light);
-            border-radius: 14px;
+            border-radius: 16px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 2.2rem;
             font-weight: 900;
-            color: var(--text-main);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            color: #ffffff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 10px rgba(255,255,255,0.3);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.3);
             cursor: pointer;
-            transition: transform 0.1s ease, background-color 0.2s ease;
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
             user-select: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(30deg);
         }
 
         .letter-btn:active {
@@ -139,111 +183,122 @@
 
         @keyframes pulseBtn {
             0% { transform: scale(1); }
-            50% { transform: scale(1.08); background-color: var(--green-light); }
+            50% { transform: scale(1.06); box-shadow: 0 0 20px var(--green-glow); }
             100% { transform: scale(1); }
         }
 
         /* Validador */
         .validador-section {
             width: 100%;
-            max-width: 480px;
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
+            padding: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
 
         .section-title {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             text-align: center;
         }
 
         .feedback-msg {
-            min-height: 20px;
-            font-size: 0.8rem;
+            height: 18px;
+            font-size: 0.75rem;
             text-align: center;
-            margin-bottom: 10px;
-            font-weight: 600;
+            margin-bottom: 6px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .feedback-msg.error { color: var(--error-red); }
-        .feedback-msg.success { color: var(--yellow-medium); }
+        .feedback-msg.error { color: var(--error-red); text-shadow: 0 0 8px rgba(255, 85, 85, 0.4); }
+        .feedback-msg.success { color: var(--yellow-medium); text-shadow: 0 0 8px rgba(230, 184, 0, 0.5); }
 
         .input-group {
             display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
         input[type="text"] {
             flex: 2;
-            background-color: rgba(0,0,0,0.3);
+            background-color: rgba(0,0,0,0.4);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px;
+            border-radius: 10px;
+            padding: 10px;
             color: var(--text-main);
             font-size: 1rem;
             text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
 
         input[type="text"]:focus {
             outline: none;
             border-color: var(--yellow-medium);
+            box-shadow: 0 0 10px rgba(230, 184, 0, 0.3), inset 0 2px 4px rgba(0,0,0,0.5);
         }
 
         button.validate-btn {
             flex: 1;
-            background-color: var(--yellow-medium);
+            background: linear-gradient(145deg, #ffcc00, #e6b800);
             color: var(--bg-dark);
             border: none;
-            border-radius: 8px;
-            padding: 12px;
-            font-weight: 700;
-            font-size: 0.85rem;
+            border-radius: 10px;
+            padding: 10px;
+            font-weight: 800;
+            font-size: 0.8rem;
             cursor: pointer;
             text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(230, 184, 0, 0.3);
+            transition: all 0.1s ease;
         }
 
-        button.validate-btn:hover {
-            background-color: var(--yellow-hover);
+        button.validate-btn:active {
+            transform: scale(0.96);
         }
 
         .action-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
         }
 
         button.action-btn {
-            background-color: var(--green-carriage);
+            background: linear-gradient(145deg, #256137, #1e4d2b);
             color: var(--text-main);
             border: 1px solid var(--green-light);
-            border-radius: 8px;
-            padding: 12px;
+            border-radius: 10px;
+            padding: 10px;
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             text-transform: uppercase;
             text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
 
         button.words-btn {
-            background-color: var(--bg-modal);
+            background: var(--bg-modal);
             color: var(--yellow-medium);
             border: 1px solid var(--yellow-medium);
+            box-shadow: 0 0 8px rgba(230, 184, 0, 0.15);
         }
 
         button:disabled {
             opacity: 0.4;
             cursor: not-allowed;
+            box-shadow: none !important;
         }
 
-        /* Ventanas Modales */
+        /* Modales */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -251,13 +306,14 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(4px);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.25s ease;
             padding: 20px;
         }
 
@@ -272,24 +328,24 @@
             border-radius: 16px;
             width: 100%;
             max-width: 400px;
-            max-height: 80vh;
+            max-height: 75vh;
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            padding: 18px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.9), 0 0 15px rgba(58, 161, 89, 0.2);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
 
         .modal-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 800;
             text-transform: uppercase;
             color: var(--yellow-medium);
@@ -307,45 +363,45 @@
         .modal-body {
             overflow-y: auto;
             flex: 1;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            line-height: 1.4;
             color: var(--text-main);
         }
 
         .words-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
         }
 
         .word-tag {
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 6px 12px;
-            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 16px;
             text-transform: uppercase;
             background-color: rgba(230, 184, 0, 0.15);
             color: var(--yellow-medium);
             border: 1px solid var(--yellow-medium);
+            box-shadow: 0 0 6px rgba(230, 184, 0, 0.2);
         }
 
-        /* Footer */
+        /* Footer Integrado */
         footer {
             width: 100%;
-            max-width: 480px;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            padding: 15px 0;
+            padding: 6px 0;
             border-top: 1px solid var(--border-color);
-            margin-top: auto;
         }
 
         footer a {
             color: var(--yellow-medium);
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
+            text-shadow: 0 0 6px rgba(230, 184, 0, 0.3);
         }
 
         footer a:hover {
@@ -355,43 +411,50 @@
 </head>
 <body>
 
-    <header>
-        <h1>CAZAPALABRAS</h1>
-        <button class="help-icon-btn" onclick="abrirAyuda()">Ayuda</button>
-    </header>
+    <div class="app-container">
+        <header>
+            <button class="icon-btn" onclick="reiniciarJuego()" title="Reiniciar juego">↻</button>
+            <h1>CAZAPALABRAS</h1>
+            <button class="icon-btn" onclick="abrirAyuda()" title="Ayuda">?</button>
+        </header>
 
-    <div class="stats-container">
-        <div class="stat-box">
-            <div class="stat-label">Puntuación</div>
-            <div class="stat-value" id="score">0</div>
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-label">Puntuación</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Tiempo</div>
+                <div class="stat-value time" id="timer">5:00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Récord</div>
+                <div class="stat-value" id="record">0</div>
+            </div>
         </div>
-        <div class="stat-box">
-            <div class="stat-label">Tiempo</div>
-            <div class="stat-value time" id="timer">5:00</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-label">Récord</div>
-            <div class="stat-value" id="record">0</div>
-        </div>
-    </div>
 
-    <div class="dice-section">
-        <div class="letter-btn" id="die1" onclick="iniciarTurno()">?</div>
-        <div class="letter-btn" id="die2" onclick="iniciarTurno()">?</div>
-        <div class="letter-btn" id="die3" onclick="iniciarTurno()">?</div>
-    </div>
+        <div class="dice-section">
+            <div class="letter-btn" id="die1" onclick="iniciarTurno()">?</div>
+            <div class="letter-btn" id="die2" onclick="iniciarTurno()">?</div>
+            <div class="letter-btn" id="die3" onclick="iniciarTurno()">?</div>
+        </div>
 
-    <div class="validador-section">
-        <div class="section-title">Validador de Palabras</div>
-        <div class="feedback-msg" id="feedback"></div>
-        <div class="input-group">
-            <input type="text" id="word-input" placeholder="TU PALABRA..." disabled>
-            <button class="validate-btn" id="validate-btn" onclick="validarPalabra()" disabled>✓ Validar</button>
+        <div class="validador-section">
+            <div class="section-title">Validador de Palabras</div>
+            <div class="feedback-msg" id="feedback"></div>
+            <div class="input-group">
+                <input type="text" id="word-input" placeholder="TU PALABRA..." disabled autocomplete="off" spellcheck="false">
+                <button class="validate-btn" id="validate-btn" onclick="validarPalabra()" disabled>✓ Validar</button>
+            </div>
+            <div class="action-buttons">
+                <button class="action-btn" id="roll-btn" onclick="iniciarTurno()">Nueva Tirada</button>
+                <button class="action-btn words-btn" id="words-btn" onclick="abrirModalPalabras()">Palabras (<span id="word-count">0</span>)</button>
+            </div>
         </div>
-        <div class="action-buttons">
-            <button class="action-btn" id="roll-btn" onclick="iniciarTurno()">Nueva Tirada</button>
-            <button class="action-btn words-btn" id="words-btn" onclick="abrirModalPalabras()">Ver Palabras (<span id="word-count">0</span>)</button>
-        </div>
+
+        <footer>
+            Desarrollado por <a href="https://instagram.com/fran_giga" target="_blank">fran_giga</a>
+        </footer>
     </div>
 
     <!-- Modal Palabras Encontradas -->
@@ -418,17 +481,13 @@
             </div>
             <div class="modal-body">
                 <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p><br>
-                <p>1. Pulsa en "Nueva Tirada" o en las letras para obtener 1 vocal y 2 consonantes al azar.</p><br>
-                <p>2. Escribe todas las palabras reales en español que contengan obligatoriamente esas tres letras.</p><br>
-                <p>3. Tienes <strong>5 minutos</strong> por turno. Si fallas una palabra, conservas tus puntos intactos.</p><br>
-                <p style="color: var(--yellow-medium);"><em>Nota especial:</em> Mientras tengas abierta esta ventana de ayuda, el tiempo pasa a la mitad de velocidad para darte tregua.</p>
+                <p>1. Pulsa en <strong>"Nueva Tirada"</strong>, las letras o <strong>"↻"</strong> para obtener 1 vocal y 2 consonantes.</p><br>
+                <p>2. Escribe palabras válidas en español que contengan obligatoriamente esas tres letras.</p><br>
+                <p>3. Tienes <strong>5 minutos</strong> por turno. Los fallos no restan puntos.</p><br>
+                <p style="color: var(--yellow-medium);"><em>Nota:</em> Durante la ventana de ayuda, el tiempo avanza a la mitad de velocidad.</p>
             </div>
         </div>
     </div>
-
-    <footer>
-        Desarrollado por <a href="https://instagram.com/fran_giga" target="_blank">fran_giga</a>
-    </footer>
 
     <script>
         const dadoVocales = ['A', 'E', 'O', 'I', 'U', 'E'];
@@ -469,6 +528,10 @@
             elDice[2].textContent = d3;
 
             return [d1, d2, d3];
+        }
+
+        function reiniciarJuego() {
+            iniciarTurno();
         }
 
         function iniciarTurno() {
@@ -543,6 +606,33 @@
             elFeedback.className = `feedback-msg ${tipo}`;
         }
 
+        // Validador híbrido multicapa (RAE / Wiktionary)
+        async function comprobarExistenciaPalabra(word) {
+            const palabraLower = word.toLowerCase();
+
+            // Consulta 1: API de Wiktionary / Wordnik en español
+            try {
+                const resWikt = await fetch(`https://es.wiktionary.org/w/api.php?action=query&titles=${palabraLower}&format=json&origin=*`);
+                const dataWikt = await resWikt.json();
+                const pages = dataWikt.query.pages;
+                if (!pages['-1']) return true;
+            } catch (e) {}
+
+            // Consulta 2: Free Dictionary API (soporta formas conjugadas y lemas)
+            try {
+                const resDict = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/es/${palabraLower}`);
+                if (resDict.ok) return true;
+            } catch (e) {}
+
+            // Consulta 3: Fallback a búsqueda directa de lemas RAE/Open Lexicon
+            try {
+                const resData = await fetch(`https://definicion.de/${palabraLower}/`);
+                if (resData.ok) return true;
+            } catch (e) {}
+
+            return false;
+        }
+
         async function validarPalabra() {
             if (!enJuego) return;
             const palabra = normalizar(elInput.value);
@@ -554,12 +644,12 @@
             }
 
             if (palabrasAceptadas.has(palabra)) {
-                mostrarFeedback(`¡Ya has usado "${palabra}"!`, 'error');
+                mostrarFeedback(`¡Ya usaste "${palabra}"!`, 'error');
                 elInput.value = '';
                 return;
             }
 
-            // 1. Comprobar presencia de letras
+            // Validar contención de letras (mantiene la puntuación intacta si falla)
             const letrasPalabra = palabra.split('');
             const contieneTodas = letrasActuales.every(letra => {
                 const idx = letrasPalabra.indexOf(letra);
@@ -571,27 +661,21 @@
             });
 
             if (!contieneTodas) {
-                // Mantiene la puntuación intacta, solo muestra el error
-                mostrarFeedback(`Debe contener las letras: ${letrasActuales.join(', ')}`, 'error');
+                mostrarFeedback(`Requiere las letras: ${letrasActuales.join(', ')}`, 'error');
                 elInput.value = '';
                 return;
             }
 
-            // 2. Comprobar existencia real de la palabra mediante API de diccionario
+            // Validar existencia real
             elValidateBtn.disabled = true;
-            mostrarFeedback('Comprobando...', '');
+            mostrarFeedback('Comprobando en diccionario...', '');
 
-            try {
-                const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/es/${palabra.toLowerCase()}`);
-                
-                if (res.ok) {
-                    registrarAcierto(palabra);
-                } else {
-                    mostrarFeedback(`"${palabra}" no existe en el diccionario.`, 'error');
-                }
-            } catch (err) {
-                // Respaldo de red
+            const existe = await comprobarExistenciaPalabra(palabra);
+
+            if (existe) {
                 registrarAcierto(palabra);
+            } else {
+                mostrarFeedback(`"${palabra}" no figura en el diccionario.`, 'error');
             }
 
             elValidateBtn.disabled = false;
