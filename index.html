@@ -8,6 +8,7 @@
         :root {
             --bg-dark: #121212;
             --bg-card: #1e1e1e;
+            --bg-modal: #282828;
             --green-neon: #00ff88;
             --yellow-neon: #ccff00;
             --text-main: #ffffff;
@@ -19,7 +20,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -34,53 +35,64 @@
             overflow-x: hidden;
         }
 
-        /* Estilo del Header */
         header {
             width: 100%;
             max-width: 480px;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 900;
             text-transform: uppercase;
             background: linear-gradient(90deg, var(--green-neon), var(--yellow-neon));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: 2px;
-            margin-bottom: 10px;
         }
 
-        /* Marcador y Tiempo */
+        .help-icon-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--yellow-neon);
+            font-weight: bold;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
         .stats-container {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 10px;
             width: 100%;
             max-width: 480px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .stat-box {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 15px;
+            padding: 12px 5px;
             text-align: center;
         }
 
         .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .stat-value {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
         }
 
@@ -88,14 +100,15 @@
             color: var(--green-neon);
         }
 
-        /* Contenedor de Dados Interactivos */
+        /* Dados 3D Estilo Convencional */
         .dice-section {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             width: 100%;
             max-width: 480px;
             margin-bottom: 25px;
+            perspective: 800px;
         }
 
         .die-container {
@@ -103,83 +116,111 @@
             flex: 1;
         }
 
-        .die {
+        .dice-3d {
             width: 100%;
             aspect-ratio: 1 / 1;
-            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-            border-radius: 16px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--bg-dark);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
             position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-15deg) rotateY(25deg);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
         }
 
-        /* Neon Glows por tipo de dado */
-        .die.vocal {
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
-            border: 2px solid var(--green-neon);
-            background: var(--green-neon);
+        .dice-3d.shake {
+            animation: rollDice 0.5s ease-in-out;
         }
 
-        .die.consonante-1 {
-            box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
-            border: 2px solid var(--green-neon);
-            background: var(--green-neon);
+        @keyframes rollDice {
+            0% { transform: rotateX(0deg) rotateY(0deg) scale(1); }
+            33% { transform: rotateX(360deg) rotateY(180deg) scale(1.1); }
+            66% { transform: rotateX(720deg) rotateY(360deg) scale(0.95); }
+            100% { transform: rotateX(-15deg) rotateY(25deg) scale(1); }
         }
 
-        .die.consonante-2 {
-            box-shadow: 0 0 15px rgba(204, 255, 0, 0.4);
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            border-radius: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2rem;
+            font-weight: 900;
+            box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
+        }
+
+        /* Caras de los dados en 3D volumétrico */
+        .face.front {
+            transform: translateZ(36px);
+        }
+        .face.back {
+            transform: rotateY(180deg) translateZ(36px);
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+        .face.right {
+            transform: rotateY(90deg) translateZ(36px);
+        }
+        .face.left {
+            transform: rotateY(-90deg) translateZ(36px);
+        }
+        .face.top {
+            transform: rotateX(90deg) translateZ(36px);
+        }
+        .face.bottom {
+            transform: rotateX(-90deg) translateZ(36px);
+        }
+
+        /* Colores de bordes y letras por tipo de dado */
+        .die-container.vocal .face {
+            border: 2px solid var(--green-neon);
+            color: var(--green-neon);
+            box-shadow: inset 0 0 12px rgba(0,255,136,0.2), 0 0 15px rgba(0,255,136,0.2);
+        }
+        .die-container.conso1 .face {
+            border: 2px solid var(--green-neon);
+            color: var(--green-neon);
+            box-shadow: inset 0 0 12px rgba(0,255,136,0.2), 0 0 15px rgba(0,255,136,0.2);
+        }
+        .die-container.conso2 .face {
             border: 2px solid var(--yellow-neon);
-            background: var(--yellow-neon);
-        }
-
-        .die.shake {
-            animation: shake 0.4s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px) rotate(-5deg); }
-            75% { transform: translateX(5px) rotate(5deg); }
+            color: var(--yellow-neon);
+            box-shadow: inset 0 0 12px rgba(204,255,0,0.2), 0 0 15px rgba(204,255,0,0.2);
         }
 
         .die-label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--text-muted);
-            margin-top: 8px;
+            margin-top: 10px;
             text-transform: uppercase;
         }
 
-        /* Área de Validación */
+        /* Validador */
         .validador-section {
             width: 100%;
             max-width: 480px;
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
-            padding: 20px;
+            padding: 16px;
             margin-bottom: 20px;
         }
 
         .section-title {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             text-align: center;
         }
 
         .input-group {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         input[type="text"] {
@@ -206,41 +247,115 @@
             border-radius: 8px;
             padding: 12px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             cursor: pointer;
             text-transform: uppercase;
         }
 
-        button.new-roll-btn {
-            width: 100%;
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        button.action-btn {
             background-color: var(--yellow-neon);
             color: var(--bg-dark);
             border: none;
             border-radius: 8px;
             padding: 12px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             cursor: pointer;
             text-transform: uppercase;
+            text-align: center;
+        }
+
+        button.words-btn {
+            background-color: var(--bg-modal);
+            color: var(--yellow-neon);
+            border: 1px solid var(--yellow-neon);
         }
 
         button:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
         }
 
-        /* Lista de Palabras */
-        .palabras-section {
+        /* Ventanas Modales */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 480px;
-            margin-bottom: 30px;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
         }
 
-        .word-list {
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--yellow-neon);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .modal-body {
+            overflow-y: auto;
+            flex: 1;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #ddd;
+        }
+
+        .words-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            justify-content: center;
         }
 
         .word-tag {
@@ -249,18 +364,9 @@
             padding: 6px 12px;
             border-radius: 20px;
             text-transform: uppercase;
-        }
-
-        .word-tag.green {
             background-color: rgba(0, 255, 136, 0.1);
             color: var(--green-neon);
             border: 1px solid var(--green-neon);
-        }
-
-        .word-tag.yellow {
-            background-color: rgba(204, 255, 0, 0.1);
-            color: var(--yellow-neon);
-            border: 1px solid var(--yellow-neon);
         }
 
         /* Footer */
@@ -268,9 +374,9 @@
             width: 100%;
             max-width: 480px;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            padding: 20px 0;
+            padding: 15px 0;
             border-top: 1px solid var(--border-color);
             margin-top: auto;
         }
@@ -285,6 +391,7 @@
 
     <header>
         <h1>CAZAPALABRAS</h1>
+        <button class="help-icon-btn" onclick="abrirAyuda()">Ayuda</button>
     </header>
 
     <div class="stats-container">
@@ -294,7 +401,7 @@
         </div>
         <div class="stat-box">
             <div class="stat-label">Tiempo</div>
-            <div class="stat-value time" id="timer">1:00</div>
+            <div class="stat-value time" id="timer">5:00</div>
         </div>
         <div class="stat-box">
             <div class="stat-label">Récord</div>
@@ -303,43 +410,91 @@
     </div>
 
     <div class="dice-section">
-        <div class="die-container">
-            <div class="die vocal" id="die1">?</div>
-            <div class="die-label">Vocal 1</div>
+        <div class="die-container vocal">
+            <div class="dice-3d" id="die1">
+                <div class="face front">?</div>
+                <div class="face back">·</div>
+                <div class="face right">·</div>
+                <div class="face left">·</div>
+                <div class="face top">·</div>
+                <div class="face bottom">·</div>
+            </div>
+            <div class="die-label">Vocal</div>
         </div>
-        <div class="die-container">
-            <div class="die consonante-1" id="die2">?</div>
+        <div class="die-container conso1">
+            <div class="dice-3d" id="die2">
+                <div class="face front">?</div>
+                <div class="face back">·</div>
+                <div class="face right">·</div>
+                <div class="face left">·</div>
+                <div class="face top">·</div>
+                <div class="face bottom">·</div>
+            </div>
             <div class="die-label">Consonante 1</div>
         </div>
-        <div class="die-container">
-            <div class="die consonante-2" id="die3">?</div>
+        <div class="die-container conso2">
+            <div class="dice-3d" id="die3">
+                <div class="face front">?</div>
+                <div class="face back">·</div>
+                <div class="face right">·</div>
+                <div class="face left">·</div>
+                <div class="face top">·</div>
+                <div class="face bottom">·</div>
+            </div>
             <div class="die-label">Consonante 2</div>
         </div>
     </div>
 
     <div class="validador-section">
-        <div class="section-title">Validador</div>
+        <div class="section-title">Validador de Palabras</div>
         <div class="input-group">
-            <input type="text" id="word-input" placeholder="TU PALABRA AQUÍ..." disabled>
+            <input type="text" id="word-input" placeholder="TU PALABRA..." disabled>
             <button class="validate-btn" id="validate-btn" onclick="validarPalabra()" disabled>✓ Validar</button>
         </div>
-        <button class="new-roll-btn" id="roll-btn" onclick="iniciarTurno()">⟳ Nueva Tirada</button>
+        <div class="action-buttons">
+            <button class="action-btn" id="roll-btn" onclick="iniciarTurno()">Nueva Tirada</button>
+            <button class="action-btn words-btn" id="words-btn" onclick="abrirModalPalabras()">Ver Palabras (<span id="word-count">0</span>)</button>
+        </div>
     </div>
 
-    <div class="palabras-section">
-        <div class="section-title">Palabras Encontradas (<span id="word-count">0</span>)</div>
-        <div class="word-list" id="word-list">
-            <!-- Las palabras aparecerán aquí -->
+    <!-- Modal Palabras Encontradas -->
+    <div class="modal-overlay" id="modal-palabras">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">Palabras Encontradas</span>
+                <button class="close-modal" onclick="cerrarModalPalabras()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="words-grid" id="word-list">
+                    <p style="color: var(--text-muted); font-style: italic;">Aún no has validado ninguna palabra.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ayuda -->
+    <div class="modal-overlay" id="modal-ayuda">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">Instrucciones</span>
+                <button class="close-modal" onclick="cerrarAyuda()">✕</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p><br>
+                <p>1. Tira los dados para obtener 1 vocal y 2 consonantes.</p><br>
+                <p>2. Escribe todas las palabras posibles en español que contengan obligatoriamente esas tres letras.</p><br>
+                <p>3. Tienes <strong>5 minutos</strong> por turno. Las palabras no se pueden repetir.</p><br>
+                <p style="color: var(--yellow-neon);"><em>Nota especial:</em> Mientras tengas abierta esta ventana de ayuda, el tiempo pasa a la mitad de velocidad para darte tregua.</p>
+            </div>
         </div>
     </div>
 
     <footer>
-        © fran_giga - Ver. 1.1<br>
+        © fran_giga - Ver. 2.0<br>
         <a href="https://instagram.com/fran_giga" target="_blank">instagram.com/fran_giga</a>
     </footer>
 
     <script>
-        // Lógica del Juego
         const dadoVocales = ['A', 'E', 'O', 'I', 'U', 'E'];
         const dadoConsonantes1 = ['S', 'R', 'N', 'L', 'T', 'D'];
         const dadoConsonantes2 = ['C', 'M', 'P', 'B', 'G', 'V'];
@@ -347,9 +502,10 @@
         let letrasActuales = [];
         let palabrasAceptadas = new Set();
         let puntuacion = 0;
-        let tiempoRestante = 60;
+        let tiempoRestante = 300; // 5 minutos en segundos
         let temporizador = null;
         let enJuego = false;
+        let isHelpOpen = false;
 
         const elDice = [document.getElementById('die1'), document.getElementById('die2'), document.getElementById('die3')];
         const elTimer = document.getElementById('timer');
@@ -360,7 +516,6 @@
         const elWordList = document.getElementById('word-list');
         const elWordCount = document.getElementById('word-count');
 
-        // Cargar récord local
         let recordLocal = localStorage.getItem('cazapalabras_record') || 0;
         elRecord.textContent = recordLocal;
 
@@ -369,28 +524,26 @@
             const d2 = dadoConsonantes1[Math.floor(Math.random() * dadoConsonantes1.length)];
             const d3 = dadoConsonantes2[Math.floor(Math.random() * dadoConsonantes2.length)];
 
-            // Animación de agitar
             elDice.forEach(die => die.classList.add('shake'));
-            setTimeout(() => elDice.forEach(die => die.classList.remove('shake')), 400);
+            setTimeout(() => elDice.forEach(die => die.classList.remove('shake')), 500);
 
-            elDice[0].textContent = d1;
-            elDice[1].textContent = d2;
-            elDice[2].textContent = d3;
+            elDice[0].querySelector('.front').textContent = d1;
+            elDice[1].querySelector('.front').textContent = d2;
+            elDice[2].querySelector('.front').textContent = d3;
 
             return [d1, d2, d3];
         }
 
         function iniciarTurno() {
-            clearInterval(temporizador);
+            pararTemporizador();
             palabrasAceptadas.clear();
-            elWordList.innerHTML = '';
-            elWordCount.textContent = '0';
+            actualizarListaPalabrasUI();
             puntuacion = 0;
             elScore.textContent = '0';
             
             letrasActuales = tirarDados();
             
-            tiempoRestante = 60;
+            tiempoRestante = 300;
             actualizarTimerDisplay();
             enJuego = true;
 
@@ -399,6 +552,14 @@
             elInput.value = '';
             elInput.focus();
 
+            iniciarTemporizador();
+        }
+
+        function iniciarTemporizador() {
+            pararTemporizador();
+            // Si la ayuda está abierta, el intervalo es de 2000ms (mitad de velocidad), si no 1000ms
+            const velocidadTick = isHelpOpen ? 2000 : 1000;
+
             temporizador = setInterval(() => {
                 tiempoRestante--;
                 actualizarTimerDisplay();
@@ -406,7 +567,11 @@
                 if (tiempoRestante <= 0) {
                     finalizarTurno();
                 }
-            }, 1000);
+            }, velocidadTick);
+        }
+
+        function pararTemporizador() {
+            if (temporizador) clearInterval(temporizador);
         }
 
         function actualizarTimerDisplay() {
@@ -416,12 +581,11 @@
         }
 
         function finalizarTurno() {
-            clearInterval(temporizador);
+            pararTemporizador();
             enJuego = false;
             elInput.disabled = true;
             elValidateBtn.disabled = true;
             
-            // Guardar récord si aplica
             if (puntuacion > recordLocal) {
                 recordLocal = puntuacion;
                 localStorage.setItem('cazapalabras_record', recordLocal);
@@ -460,27 +624,51 @@
             });
 
             if (contieneTodas) {
-                // Registrar palabra válida
                 palabrasAceptadas.add(palabra);
-                
-                // Puntuación: 1 punto por letra
                 puntuacion += palabra.length;
                 elScore.textContent = puntuacion;
                 elWordCount.textContent = palabrasAceptadas.size;
-
-                // Añadir tag visual
-                const tag = document.createElement('div');
-                const colorClass = palabrasAceptadas.size % 2 === 0 ? 'green' : 'yellow';
-                tag.className = `word-tag ${colorClass}`;
-                tag.textContent = `${palabra} (${palabra.length})`;
-                elWordList.prepend(tag);
+                actualizarListaPalabrasUI();
             }
 
             elInput.value = '';
             elInput.focus();
         }
 
-        // Permitir Enter para validar
+        function actualizarListaPalabrasUI() {
+            if (palabrasAceptadas.size === 0) {
+                elWordList.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Aún no has validado ninguna palabra.</p>';
+                return;
+            }
+            elWordList.innerHTML = '';
+            palabrasAceptadas.forEach(palabra => {
+                const tag = document.createElement('div');
+                tag.className = 'word-tag';
+                tag.textContent = `${palabra} (${palabra.length})`;
+                elWordList.appendChild(tag);
+            });
+        }
+
+        function abrirModalPalabras() {
+            document.getElementById('modal-palabras').classList.add('active');
+        }
+
+        function cerrarModalPalabras() {
+            document.getElementById('modal-palabras').classList.remove('active');
+        }
+
+        function abrirAyuda() {
+            isHelpOpen = true;
+            if (enJuego) iniciarTemporizador(); // Reinicia el intervalo a mitad de velocidad
+            document.getElementById('modal-ayuda').classList.add('active');
+        }
+
+        function cerrarAyuda() {
+            isHelpOpen = false;
+            if (enJuego) iniciarTemporizador(); // Restaura la velocidad normal del temporizador
+            document.getElementById('modal-ayuda').classList.remove('active');
+        }
+
         elInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') validarPalabra();
         });
