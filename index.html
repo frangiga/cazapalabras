@@ -16,6 +16,7 @@
             --text-main: #f0f0f0;
             --text-muted: #99a39d;
             --border-color: #2d3b31;
+            --error-red: #d9534f;
         }
 
         * {
@@ -158,9 +159,20 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             text-align: center;
         }
+
+        .feedback-msg {
+            min-height: 20px;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .feedback-msg.error { color: var(--error-red); }
+        .feedback-msg.success { color: var(--yellow-medium); }
 
         .input-group {
             display: flex;
@@ -371,6 +383,7 @@
 
     <div class="validador-section">
         <div class="section-title">Validador de Palabras</div>
+        <div class="feedback-msg" id="feedback"></div>
         <div class="input-group">
             <input type="text" id="word-input" placeholder="TU PALABRA..." disabled>
             <button class="validate-btn" id="validate-btn" onclick="validarPalabra()" disabled>✓ Validar</button>
@@ -406,8 +419,8 @@
             <div class="modal-body">
                 <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p><br>
                 <p>1. Pulsa en "Nueva Tirada" o en las letras para obtener 1 vocal y 2 consonantes al azar.</p><br>
-                <p>2. Escribe todas las palabras posibles en español que contengan obligatoriamente esas tres letras.</p><br>
-                <p>3. Tienes <strong>5 minutos</strong> por turno. Las palabras no se pueden repetir.</p><br>
+                <p>2. Escribe todas las palabras reales en español que contengan obligatoriamente esas tres letras.</p><br>
+                <p>3. Tienes <strong>5 minutos</strong> por turno. Si fallas una palabra, conservas tus puntos intactos.</p><br>
                 <p style="color: var(--yellow-medium);"><em>Nota especial:</em> Mientras tengas abierta esta ventana de ayuda, el tiempo pasa a la mitad de velocidad para darte tregua.</p>
             </div>
         </div>
@@ -438,6 +451,7 @@
         const elValidateBtn = document.getElementById('validate-btn');
         const elWordList = document.getElementById('word-list');
         const elWordCount = document.getElementById('word-count');
+        const elFeedback = document.getElementById('feedback');
 
         let recordLocal = localStorage.getItem('cazapalabras_record') || 0;
         elRecord.textContent = recordLocal;
@@ -463,6 +477,7 @@
             actualizarListaPalabrasUI();
             puntuacion = 0;
             elScore.textContent = '0';
+            mostrarFeedback('');
             
             letrasActuales = tirarDados();
             
@@ -507,6 +522,7 @@
             enJuego = false;
             elInput.disabled = true;
             elValidateBtn.disabled = true;
+            mostrarFeedback('¡Tiempo agotado!', 'error');
             
             if (puntuacion > recordLocal) {
                 recordLocal = puntuacion;
@@ -522,19 +538,28 @@
                 .trim();
         }
 
-        function validarPalabra() {
+        function mostrarFeedback(msg, tipo = '') {
+            elFeedback.textContent = msg;
+            elFeedback.className = `feedback-msg ${tipo}`;
+        }
+
+        async function validarPalabra() {
             if (!enJuego) return;
             const palabra = normalizar(elInput.value);
+            
             if (!palabra || palabra.length < 3) {
+                mostrarFeedback('Escribe al menos 3 letras', 'error');
                 elInput.value = '';
                 return;
             }
 
             if (palabrasAceptadas.has(palabra)) {
+                mostrarFeedback(`¡Ya has usado "${palabra}"!`, 'error');
                 elInput.value = '';
                 return;
             }
 
+            // 1. Comprobar presencia de letras
             const letrasPalabra = palabra.split('');
             const contieneTodas = letrasActuales.every(letra => {
                 const idx = letrasPalabra.indexOf(letra);
@@ -545,16 +570,42 @@
                 return false;
             });
 
-            if (contieneTodas) {
-                palabrasAceptadas.add(palabra);
-                puntuacion += palabra.length;
-                elScore.textContent = puntuacion;
-                elWordCount.textContent = palabrasAceptadas.size;
-                actualizarListaPalabrasUI();
+            if (!contieneTodas) {
+                // Mantiene la puntuación intacta, solo muestra el error
+                mostrarFeedback(`Debe contener las letras: ${letrasActuales.join(', ')}`, 'error');
+                elInput.value = '';
+                return;
             }
 
+            // 2. Comprobar existencia real de la palabra mediante API de diccionario
+            elValidateBtn.disabled = true;
+            mostrarFeedback('Comprobando...', '');
+
+            try {
+                const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/es/${palabra.toLowerCase()}`);
+                
+                if (res.ok) {
+                    registrarAcierto(palabra);
+                } else {
+                    mostrarFeedback(`"${palabra}" no existe en el diccionario.`, 'error');
+                }
+            } catch (err) {
+                // Respaldo de red
+                registrarAcierto(palabra);
+            }
+
+            elValidateBtn.disabled = false;
             elInput.value = '';
             elInput.focus();
+        }
+
+        function registrarAcierto(palabra) {
+            palabrasAceptadas.add(palabra);
+            puntuacion += palabra.length;
+            elScore.textContent = puntuacion;
+            elWordCount.textContent = palabrasAceptadas.size;
+            mostrarFeedback(`¡"${palabra}" válida! (+${palabra.length} pts)`, 'success');
+            actualizarListaPalabrasUI();
         }
 
         function actualizarListaPalabrasUI() {
