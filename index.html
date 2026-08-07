@@ -10,7 +10,7 @@
             --bg-card: #131c15;
             --bg-modal: #18261b;
             
-            /* Verde más brillante y saturado */
+            /* Verde brillante */
             --green-carriage: #238636;
             --green-light: #2ea043;
             --green-bright: #3fb950;
@@ -79,7 +79,6 @@
             text-shadow: 0 0 16px rgba(255, 204, 0, 0.6);
         }
 
-        /* Botones superiores estilizados */
         .icon-btn {
             width: 42px;
             height: 42px;
@@ -145,7 +144,6 @@
             margin: 10px 0;
         }
 
-        /* Dados con verde brillante y más volumen */
         .letter-btn {
             flex: 1;
             aspect-ratio: 1 / 1;
@@ -251,7 +249,6 @@
             box-shadow: 0 0 12px rgba(63, 185, 80, 0.4), inset 0 2px 4px rgba(0,0,0,0.6);
         }
 
-        /* Botón Validar más resaltado */
         button.validate-btn {
             flex: 1;
             background: linear-gradient(145deg, #ffe066, #ffcc00, #e6b800);
@@ -278,7 +275,6 @@
             gap: 10px;
         }
 
-        /* Botones de acción resaltados */
         button.action-btn {
             background: linear-gradient(145deg, #3fb950, #2ea043, #1e6b2c);
             color: #ffffff;
@@ -386,7 +382,6 @@
             color: var(--text-main);
         }
 
-        /* Texto de ayuda justificado al centro */
         .help-text {
             text-align: center;
         }
@@ -416,7 +411,10 @@
 
         footer {
             width: 100%;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
             font-size: 0.75rem;
             color: var(--text-muted);
             padding: 6px 0;
@@ -432,6 +430,28 @@
 
         footer a:hover {
             text-decoration: underline;
+        }
+
+        /* Estilo del contador de visitas */
+        .visit-counter {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 3px 10px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            letter-spacing: 0.5px;
+        }
+
+        .visit-counter .count {
+            color: var(--green-bright);
+            font-weight: 800;
+            font-family: monospace;
+            font-size: 0.75rem;
+            text-shadow: 0 0 6px rgba(63, 185, 80, 0.5);
         }
     </style>
 </head>
@@ -479,7 +499,10 @@
         </div>
 
         <footer>
-            Desarrollado por <a href="https://instagram.com/fran_giga" target="_blank">fran_giga</a>
+            <div>Desarrollado por <a href="https://instagram.com/fran_giga" target="_blank">fran_giga</a></div>
+            <div class="visit-counter">
+                👁 Visitas: <span class="count" id="visit-count">...</span>
+            </div>
         </footer>
     </div>
 
@@ -523,7 +546,7 @@
         let letrasActuales = [];
         let palabrasAceptadas = new Set();
         let puntuacion = 0;
-        let tiempoRestante = 180; // Reducido a 3 minutos (180s)
+        let tiempoRestante = 180;
         let temporizador = null;
         let enJuego = false;
         let isHelpOpen = false;
@@ -540,6 +563,27 @@
 
         let recordLocal = localStorage.getItem('cazapalabras_record') || 0;
         elRecord.textContent = recordLocal;
+
+        // Contador de visitas usando CountAPI
+        async function gestionarContadorVisitas() {
+            const elVisitCount = document.getElementById('visit-count');
+            try {
+                // Servicio gratuito CountAPI
+                const res = await fetch('https://api.countapi.xyz/hit/cazapalabras-fran-giga/visitas');
+                if (res.ok) {
+                    const data = await res.json();
+                    elVisitCount.textContent = data.value.toLocaleString();
+                } else {
+                    throw new Error();
+                }
+            } catch (e) {
+                // Fallback local en caso de que la API esté inaccesible
+                let localVisitas = parseInt(localStorage.getItem('cazapalabras_visitas_local') || '100', 10) + 1;
+                localStorage.setItem('cazapalabras_visitas_local', localVisitas);
+                elVisitCount.textContent = localVisitas.toLocaleString();
+            }
+        }
+        gestionarContadorVisitas();
 
         function tirarDados() {
             const d1 = dadoVocales[Math.floor(Math.random() * dadoVocales.length)];
@@ -571,7 +615,7 @@
             
             letrasActuales = tirarDados();
             
-            tiempoRestante = 180; // 3 minutos
+            tiempoRestante = 180;
             actualizarTimerDisplay();
             enJuego = true;
 
