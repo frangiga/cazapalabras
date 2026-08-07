@@ -58,19 +58,27 @@
             height: 100vh;
             height: 100dvh;
             margin: 0 auto;
-            padding: 8px 12px;
+            padding: 6px 12px;
         }
 
         header {
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 2px;
+        }
+
+        .header-top {
+            width: 100%;
             display: grid;
             grid-template-columns: 36px 1fr 36px;
             align-items: center;
-            margin-bottom: 4px;
         }
 
         h1 {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 900;
             text-transform: uppercase;
             color: var(--yellow-medium);
@@ -79,14 +87,33 @@
             text-shadow: 0 0 16px rgba(255, 204, 0, 0.6);
         }
 
+        .multiplayer-trigger-btn {
+            background: linear-gradient(145deg, #2ea043, #1e6b2c);
+            color: #ffffff;
+            border: 1px solid var(--green-glow);
+            border-radius: 20px;
+            padding: 3px 14px;
+            font-size: 0.65rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(63, 185, 80, 0.4);
+            text-transform: uppercase;
+            transition: all 0.15s ease;
+        }
+
+        .multiplayer-trigger-btn:active {
+            transform: scale(0.92);
+        }
+
         .icon-btn {
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             background: linear-gradient(145deg, #1c2a1e, #111a13);
             border: 2px solid var(--green-bright);
             color: var(--yellow-medium);
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1rem;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -98,7 +125,6 @@
 
         .icon-btn:active {
             transform: scale(0.90);
-            box-shadow: 0 0 15px rgba(63, 185, 80, 0.6);
         }
 
         .stats-container {
@@ -126,7 +152,7 @@
         }
 
         .stat-value {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 800;
             text-shadow: 0 0 8px rgba(255,255,255,0.2);
         }
@@ -136,26 +162,25 @@
             text-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
         }
 
-        /* Dados compactados para dar protagonismo al teclado */
         .dice-section {
             display: flex;
             justify-content: center;
             gap: 10px;
             width: 100%;
-            margin: 4px 0;
+            margin: 2px 0;
         }
 
         .letter-btn {
             flex: 1;
-            max-width: 70px;
-            height: 52px;
+            max-width: 65px;
+            height: 48px;
             background: linear-gradient(145deg, #2ea043, #1e6b2c);
             border: 2px solid var(--green-glow);
             border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 900;
             color: #ffffff;
             text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 12px rgba(255,255,255,0.5);
@@ -197,15 +222,15 @@
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 8px 10px;
+            padding: 6px 10px;
             box-shadow: 0 6px 20px rgba(0,0,0,0.5);
         }
 
         .feedback-msg {
-            height: 16px;
-            font-size: 0.7rem;
+            height: 15px;
+            font-size: 0.68rem;
             text-align: center;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
@@ -220,13 +245,13 @@
             background-color: rgba(0,0,0,0.6);
             border: 2px solid var(--border-color);
             border-radius: 10px;
-            padding: 8px;
+            padding: 6px;
             color: var(--text-main);
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 800;
             letter-spacing: 2px;
             text-align: center;
-            min-height: 42px;
+            min-height: 38px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -242,7 +267,7 @@
 
         .word-display .placeholder {
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
             letter-spacing: 0;
             opacity: 0.6;
@@ -259,9 +284,9 @@
             color: #ffffff;
             border: 1px solid var(--green-glow);
             border-radius: 10px;
-            padding: 8px;
+            padding: 7px;
             font-weight: 800;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             cursor: pointer;
             text-transform: uppercase;
             text-align: center;
@@ -280,7 +305,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 12px rgba(255, 204, 0, 0.25);
         }
 
-        /* Teclado QWERTY Integrado */
         .keyboard-container {
             width: 100%;
             display: flex;
@@ -299,12 +323,12 @@
 
         .key {
             flex: 1;
-            height: 42px;
+            height: 40px;
             background: linear-gradient(145deg, #1f2c22, #141d16);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             color: var(--text-main);
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 800;
             display: flex;
             justify-content: center;
@@ -331,14 +355,10 @@
             background: linear-gradient(145deg, #ffe066, #ffcc00);
             color: #0d120f;
             border-color: #fff;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 900;
             flex: 1.8;
             box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
-        }
-
-        .key.enter:active {
-            background: var(--yellow-hover);
         }
 
         .modal-overlay {
@@ -370,10 +390,10 @@
             border-radius: 18px;
             width: 100%;
             max-width: 400px;
-            max-height: 75vh;
+            max-height: 80vh;
             display: flex;
             flex-direction: column;
-            padding: 20px;
+            padding: 18px;
             box-shadow: 0 0 30px rgba(0,0,0,0.9), 0 0 20px rgba(63, 185, 80, 0.3);
         }
 
@@ -381,13 +401,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
+            padding-bottom: 8px;
         }
 
         .modal-title {
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 800;
             text-transform: uppercase;
             color: var(--yellow-medium);
@@ -409,37 +429,89 @@
         .modal-body {
             overflow-y: auto;
             flex: 1;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            line-height: 1.4;
             color: var(--text-main);
         }
 
-        .help-text {
+        .multiplayer-box {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .code-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .code-input-group input {
+            flex: 1;
+            background: rgba(0,0,0,0.6);
+            border: 2px solid var(--yellow-medium);
+            border-radius: 10px;
+            padding: 8px;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             text-align: center;
         }
 
-        .help-text p {
-            margin-bottom: 12px;
+        .code-input-group button {
+            background: linear-gradient(145deg, #ffe066, #ffcc00);
+            color: #0d120f;
+            border: none;
+            border-radius: 10px;
+            padding: 0 16px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .btn-gen-code {
+            background: linear-gradient(145deg, #3fb950, #2ea043);
+            color: #fff;
+            border: 1px solid var(--green-glow);
+            border-radius: 10px;
+            padding: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .rules-card {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .rules-card h4 {
+            color: var(--yellow-medium);
+            margin-bottom: 4px;
         }
 
         .words-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
             justify-content: center;
         }
 
         .word-tag {
             font-size: 0.75rem;
             font-weight: 700;
-            padding: 6px 12px;
-            border-radius: 16px;
+            padding: 4px 10px;
+            border-radius: 14px;
             text-transform: uppercase;
             background-color: rgba(255, 204, 0, 0.15);
             color: var(--yellow-medium);
             border: 1px solid var(--yellow-medium);
-            box-shadow: 0 0 8px rgba(255, 204, 0, 0.2);
         }
 
         footer {
@@ -447,9 +519,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             color: var(--text-muted);
-            padding: 4px 0;
+            padding: 2px 0;
             border-top: 1px solid var(--border-color);
         }
 
@@ -457,11 +529,6 @@
             color: var(--yellow-medium);
             text-decoration: none;
             font-weight: 700;
-            text-shadow: 0 0 6px rgba(255, 204, 0, 0.4);
-        }
-
-        footer a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -469,9 +536,12 @@
 
     <div class="app-container">
         <header>
-            <button class="icon-btn" onclick="reiniciarJuego()" title="Reiniciar juego">↻</button>
-            <h1>CAZAPALABRAS</h1>
-            <button class="icon-btn" onclick="abrirAyuda()" title="Ayuda">?</button>
+            <div class="header-top">
+                <button class="icon-btn" onclick="reiniciarJuego()" title="Reiniciar juego">↻</button>
+                <h1>CAZAPALABRAS</h1>
+                <button class="icon-btn" onclick="abrirAyuda()" title="Ayuda">?</button>
+            </div>
+            <button class="multiplayer-trigger-btn" onclick="abrirModalMultiplayer()">⚔ MULTIJUGADOR</button>
         </header>
 
         <div class="stats-container">
@@ -507,7 +577,6 @@
             </div>
         </div>
 
-        <!-- Teclado Virtual QWERTY Integrado -->
         <div class="keyboard-container" id="keyboard">
             <div class="keyboard-row">
                 <div class="key" onclick="presionarTecla('Q')">Q</div>
@@ -551,6 +620,33 @@
         </footer>
     </div>
 
+    <!-- Modal Multijugador -->
+    <div class="modal-overlay" id="modal-multiplayer">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">Sala Multijugador</span>
+                <button class="close-modal" onclick="cerrarModalMultiplayer()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="multiplayer-box">
+                    <button class="btn-gen-code" onclick="generarCodigoMultijugador()">Crear Nueva Sala</button>
+                    <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted);">o introduce un código existente:</div>
+                    <div class="code-input-group">
+                        <input type="text" id="room-code-input" placeholder="CÓDIGO" maxlength="6">
+                        <button onclick="unirseASala()">UNIRSE</button>
+                    </div>
+
+                    <div class="rules-card">
+                        <h4>Mecánica de la Sala Multijugador:</h4>
+                        <p>1. Un jugador <strong>crea la sala</strong> y comparte el código con sus rivales.</p>
+                        <p>2. Todos los jugadores con el mismo código jugarán exactamente con las <strong>mismas tiradas de dados</strong>.</p>
+                        <p>3. La partida arranca de forma simultánea. ¡Compara la puntuación obtenida al finalizar los 3 minutos para saber quién es el ganador!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Palabras Encontradas -->
     <div class="modal-overlay" id="modal-palabras">
         <div class="modal-content">
@@ -576,14 +672,63 @@
             <div class="modal-body help-text">
                 <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p>
                 <p>1. Pulsa en <strong>"Nueva Tirada"</strong> para obtener 1 vocal y 2 consonantes.</p>
-                <p>2. Escribe palabras válidas usando el teclado en pantalla que contengan obligatoriamente las tres letras requeridas.</p>
+                <p>2. Escribe palabras válidas usando el teclado que contengan obligatoriamente las tres letras requeridas.</p>
                 <p>3. Tienes <strong>3 minutos</strong> por turno. Los fallos no restan puntos.</p>
-                <p style="color: var(--yellow-medium);"><em>Nota: Durante la ayuda el tiempo avanza a la mitad de velocidad.</em></p>
             </div>
         </div>
     </div>
 
     <script>
+        // --- SINTETIZADOR DE EFECTOS DE SONIDO (Web Audio API) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'key') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } else if (type === 'roll') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.exponentialRampToValueAtTime(400, now + 0.15);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } else if (type === 'success') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'error') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.setValueAtTime(140, now + 0.1);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            }
+        }
+
+        // --- LÓGICA DEL JUEGO ---
         const dadoVocales = ['A', 'E', 'O', 'I', 'U', 'E'];
         const dadoConsonantes1 = ['S', 'R', 'N', 'L', 'T', 'D'];
         const dadoConsonantes2 = ['C', 'M', 'P', 'B', 'G', 'V'];
@@ -597,6 +742,10 @@
         let isHelpOpen = false;
         let palabraActual = '';
 
+        // Variables Modo Multijugador Sembrado (PRNG)
+        let isMultiplayer = false;
+        let seedActual = 0;
+
         const elDice = [document.getElementById('die1'), document.getElementById('die2'), document.getElementById('die3')];
         const elTimer = document.getElementById('timer');
         const elScore = document.getElementById('score');
@@ -609,10 +758,21 @@
         let recordLocal = localStorage.getItem('cazapalabras_record') || 0;
         elRecord.textContent = recordLocal;
 
+        // Generador pseudoaleatorio para sembrar tiradas en salas multijugador
+        function seededRandom() {
+            let x = Math.sin(seedActual++) * 10000;
+            return x - Math.floor(x);
+        }
+
         function tirarDados() {
-            const d1 = dadoVocales[Math.floor(Math.random() * dadoVocales.length)];
-            const d2 = dadoConsonantes1[Math.floor(Math.random() * dadoConsonantes1.length)];
-            const d3 = dadoConsonantes2[Math.floor(Math.random() * dadoConsonantes2.length)];
+            playSound('roll');
+            let r1 = isMultiplayer ? seededRandom() : Math.random();
+            let r2 = isMultiplayer ? seededRandom() : Math.random();
+            let r3 = isMultiplayer ? seededRandom() : Math.random();
+
+            const d1 = dadoVocales[Math.floor(r1 * dadoVocales.length)];
+            const d2 = dadoConsonantes1[Math.floor(r2 * dadoConsonantes1.length)];
+            const d3 = dadoConsonantes2[Math.floor(r3 * dadoConsonantes2.length)];
 
             elDice.forEach(btn => btn.classList.add('shake'));
             setTimeout(() => elDice.forEach(btn => btn.classList.remove('shake')), 400);
@@ -625,6 +785,7 @@
         }
 
         function reiniciarJuego() {
+            isMultiplayer = false;
             iniciarTurno();
         }
 
@@ -650,6 +811,7 @@
 
         function presionarTecla(letra) {
             if (!enJuego) return;
+            playSound('key');
             if (palabraActual.length < 20) {
                 palabraActual += letra;
                 actualizarDisplayPalabra();
@@ -658,6 +820,7 @@
 
         function borrarTecla() {
             if (!enJuego) return;
+            playSound('key');
             if (palabraActual.length > 0) {
                 palabraActual = palabraActual.slice(0, -1);
                 actualizarDisplayPalabra();
@@ -674,7 +837,6 @@
             }
         }
 
-        // Manejo del teclado físico del PC por si se juega en ordenador
         document.addEventListener('keydown', (e) => {
             if (!enJuego) return;
             if (e.key === 'Backspace') {
@@ -713,6 +875,7 @@
         function finalizarTurno() {
             pararTemporizador();
             enJuego = false;
+            playSound('error');
             mostrarFeedback('¡Tiempo agotado!', 'error');
             
             if (puntuacion > recordLocal) {
@@ -779,11 +942,13 @@
             const palabraNormalizada = normalizarParaComparar(palabraIngresada);
             
             if (!palabraIngresada || palabraNormalizada.length < 3) {
+                playSound('error');
                 mostrarFeedback('Escribe al menos 3 letras', 'error');
                 return;
             }
 
             if (palabrasAceptadas.has(palabraNormalizada)) {
+                playSound('error');
                 mostrarFeedback(`¡Ya usaste "${palabraIngresada.toUpperCase()}"!`, 'error');
                 palabraActual = '';
                 actualizarDisplayPalabra();
@@ -801,6 +966,7 @@
             });
 
             if (!contieneTodas) {
+                playSound('error');
                 mostrarFeedback(`Requiere las letras: ${letrasActuales.join(', ')}`, 'error');
                 palabraActual = '';
                 actualizarDisplayPalabra();
@@ -814,6 +980,7 @@
             if (existe) {
                 registrarAcierto(palabraIngresada, palabraNormalizada);
             } else {
+                playSound('error');
                 mostrarFeedback(`"${palabraIngresada.toUpperCase()}" no figura en la RAE.`, 'error');
             }
 
@@ -822,6 +989,7 @@
         }
 
         function registrarAcierto(palabraMostrar, palabraClave) {
+            playSound('success');
             palabrasAceptadas.add(palabraClave);
             puntuacion += palabraClave.length;
             elScore.textContent = puntuacion;
@@ -849,6 +1017,45 @@
                 tag.textContent = `${item.palabra} (${item.longitud})`;
                 elWordList.appendChild(tag);
             });
+        }
+
+        // --- SISTEMA MULTIJUGADOR POR CÓDIGO ---
+        function stringToSeed(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = str.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return Math.abs(hash);
+        }
+
+        function generarCodigoMultijugador() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < 5; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('room-code-input').value = code;
+        }
+
+        function unirseASala() {
+            const code = document.getElementById('room-code-input').value.trim().toUpperCase();
+            if (code.length < 3) {
+                alert('Introduce un código de sala válido.');
+                return;
+            }
+            isMultiplayer = true;
+            seedActual = stringToSeed(code);
+            cerrarModalMultiplayer();
+            iniciarTurno();
+            mostrarFeedback(`Sala Multijugador: ${code}`, 'success');
+        }
+
+        function abrirModalMultiplayer() {
+            document.getElementById('modal-multiplayer').classList.add('active');
+        }
+
+        function cerrarModalMultiplayer() {
+            document.getElementById('modal-multiplayer').classList.remove('active');
         }
 
         function abrirModalPalabras() {
