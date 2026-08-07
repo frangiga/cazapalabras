@@ -58,19 +58,19 @@
             height: 100vh;
             height: 100dvh;
             margin: 0 auto;
-            padding: 12px 16px;
+            padding: 8px 12px;
         }
 
         header {
             width: 100%;
             display: grid;
-            grid-template-columns: 42px 1fr 42px;
+            grid-template-columns: 36px 1fr 36px;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         h1 {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 900;
             text-transform: uppercase;
             color: var(--yellow-medium);
@@ -80,13 +80,13 @@
         }
 
         .icon-btn {
-            width: 42px;
-            height: 42px;
+            width: 36px;
+            height: 36px;
             background: linear-gradient(145deg, #1c2a1e, #111a13);
             border: 2px solid var(--green-bright);
             color: var(--yellow-medium);
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -104,29 +104,29 @@
         .stats-container {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
+            gap: 6px;
             width: 100%;
         }
 
         .stat-box {
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 8px 4px;
+            border-radius: 10px;
+            padding: 4px 2px;
             text-align: center;
             box-shadow: inset 0 1px 2px rgba(255,255,255,0.05), 0 4px 8px rgba(0,0,0,0.3);
         }
 
         .stat-label {
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
 
         .stat-value {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 800;
             text-shadow: 0 0 8px rgba(255,255,255,0.2);
         }
@@ -136,29 +136,30 @@
             text-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
         }
 
+        /* Dados compactados para dar protagonismo al teclado */
         .dice-section {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             width: 100%;
-            margin: 10px 0;
+            margin: 4px 0;
         }
 
         .letter-btn {
             flex: 1;
-            aspect-ratio: 1 / 1;
-            max-height: 110px;
+            max-width: 70px;
+            height: 52px;
             background: linear-gradient(145deg, #2ea043, #1e6b2c);
             border: 2px solid var(--green-glow);
-            border-radius: 18px;
+            border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2.4rem;
+            font-size: 1.6rem;
             font-weight: 900;
             color: #ffffff;
             text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 12px rgba(255,255,255,0.5);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.7), 0 0 15px rgba(63, 185, 80, 0.4), inset 0 2px 3px rgba(255,255,255,0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.7), 0 0 10px rgba(63, 185, 80, 0.4), inset 0 2px 3px rgba(255,255,255,0.4);
             cursor: pointer;
             transition: transform 0.1s ease, box-shadow 0.2s ease;
             user-select: none;
@@ -195,25 +196,16 @@
             width: 100%;
             background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-
-        .section-title {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 4px;
-            text-align: center;
+            border-radius: 14px;
+            padding: 8px 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
         }
 
         .feedback-msg {
-            height: 18px;
-            font-size: 0.75rem;
+            height: 16px;
+            font-size: 0.7rem;
             text-align: center;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             font-weight: 700;
             white-space: nowrap;
             overflow: hidden;
@@ -223,66 +215,53 @@
         .feedback-msg.error { color: var(--error-red); text-shadow: 0 0 8px rgba(255, 85, 85, 0.5); }
         .feedback-msg.success { color: var(--yellow-medium); text-shadow: 0 0 10px rgba(255, 204, 0, 0.6); }
 
-        .input-group {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        input[type="text"] {
-            flex: 2;
-            background-color: rgba(0,0,0,0.5);
+        .word-display {
+            width: 100%;
+            background-color: rgba(0,0,0,0.6);
             border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 10px;
+            border-radius: 10px;
+            padding: 8px;
             color: var(--text-main);
-            font-size: 1rem;
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-align: center;
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 1px;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+            margin-bottom: 6px;
         }
 
-        input[type="text"]:focus {
-            outline: none;
+        .word-display.active {
             border-color: var(--green-bright);
-            box-shadow: 0 0 12px rgba(63, 185, 80, 0.4), inset 0 2px 4px rgba(0,0,0,0.6);
+            box-shadow: 0 0 10px rgba(63, 185, 80, 0.3), inset 0 2px 4px rgba(0,0,0,0.6);
         }
 
-        button.validate-btn {
-            flex: 1;
-            background: linear-gradient(145deg, #ffe066, #ffcc00, #e6b800);
-            color: #0d120f;
-            border: 1px solid #ffffff;
-            border-radius: 12px;
-            padding: 10px;
-            font-weight: 900;
-            font-size: 0.85rem;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 4px 14px rgba(255, 204, 0, 0.4), inset 0 1px 2px rgba(255,255,255,0.8);
-            transition: all 0.15s ease;
-        }
-
-        button.validate-btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 2px 8px rgba(255, 204, 0, 0.6);
+        .word-display .placeholder {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0;
+            opacity: 0.6;
         }
 
         .action-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
         }
 
         button.action-btn {
             background: linear-gradient(145deg, #3fb950, #2ea043, #1e6b2c);
             color: #ffffff;
             border: 1px solid var(--green-glow);
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 10px;
+            padding: 8px;
             font-weight: 800;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             text-transform: uppercase;
             text-align: center;
@@ -301,11 +280,65 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 12px rgba(255, 204, 0, 0.25);
         }
 
-        button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            box-shadow: none !important;
-            transform: none !important;
+        /* Teclado QWERTY Integrado */
+        .keyboard-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 4px;
+            user-select: none;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .key {
+            flex: 1;
+            height: 42px;
+            background: linear-gradient(145deg, #1f2c22, #141d16);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 800;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+            transition: background 0.1s, transform 0.05s;
+        }
+
+        .key:active {
+            transform: scale(0.92);
+            background: var(--green-light);
+            color: #fff;
+        }
+
+        .key.special {
+            background: linear-gradient(145deg, #2d3b30, #1c271e);
+            color: var(--yellow-medium);
+            font-size: 0.8rem;
+            flex: 1.4;
+        }
+
+        .key.enter {
+            background: linear-gradient(145deg, #ffe066, #ffcc00);
+            color: #0d120f;
+            border-color: #fff;
+            font-size: 0.85rem;
+            font-weight: 900;
+            flex: 1.8;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+        }
+
+        .key.enter:active {
+            background: var(--yellow-hover);
         }
 
         .modal-overlay {
@@ -412,12 +445,11 @@
         footer {
             width: 100%;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
-            padding: 6px 0;
+            padding: 4px 0;
             border-top: 1px solid var(--border-color);
         }
 
@@ -430,28 +462,6 @@
 
         footer a:hover {
             text-decoration: underline;
-        }
-
-        /* Estilo del contador de visitas */
-        .visit-counter {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            background: rgba(0, 0, 0, 0.4);
-            padding: 3px 10px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            letter-spacing: 0.5px;
-        }
-
-        .visit-counter .count {
-            color: var(--green-bright);
-            font-weight: 800;
-            font-family: monospace;
-            font-size: 0.75rem;
-            text-shadow: 0 0 6px rgba(63, 185, 80, 0.5);
         }
     </style>
 </head>
@@ -486,23 +496,58 @@
         </div>
 
         <div class="validador-section">
-            <div class="section-title">Validador de Palabras</div>
             <div class="feedback-msg" id="feedback"></div>
-            <div class="input-group">
-                <input type="text" id="word-input" placeholder="TU PALABRA..." disabled autocomplete="off" spellcheck="false">
-                <button class="validate-btn" id="validate-btn" onclick="validarPalabra()" disabled>✓ Validar</button>
+            <div class="word-display" id="word-display">
+                <span class="placeholder">PULSA 'NUEVA TIRADA'</span>
             </div>
+
             <div class="action-buttons">
                 <button class="action-btn" id="roll-btn" onclick="iniciarTurno()">Nueva Tirada</button>
                 <button class="action-btn words-btn" id="words-btn" onclick="abrirModalPalabras()">Palabras (<span id="word-count">0</span>)</button>
             </div>
         </div>
 
+        <!-- Teclado Virtual QWERTY Integrado -->
+        <div class="keyboard-container" id="keyboard">
+            <div class="keyboard-row">
+                <div class="key" onclick="presionarTecla('Q')">Q</div>
+                <div class="key" onclick="presionarTecla('W')">W</div>
+                <div class="key" onclick="presionarTecla('E')">E</div>
+                <div class="key" onclick="presionarTecla('R')">R</div>
+                <div class="key" onclick="presionarTecla('T')">T</div>
+                <div class="key" onclick="presionarTecla('Y')">Y</div>
+                <div class="key" onclick="presionarTecla('U')">U</div>
+                <div class="key" onclick="presionarTecla('I')">I</div>
+                <div class="key" onclick="presionarTecla('O')">O</div>
+                <div class="key" onclick="presionarTecla('P')">P</div>
+            </div>
+            <div class="keyboard-row">
+                <div class="key" onclick="presionarTecla('A')">A</div>
+                <div class="key" onclick="presionarTecla('S')">S</div>
+                <div class="key" onclick="presionarTecla('D')">D</div>
+                <div class="key" onclick="presionarTecla('F')">F</div>
+                <div class="key" onclick="presionarTecla('G')">G</div>
+                <div class="key" onclick="presionarTecla('H')">H</div>
+                <div class="key" onclick="presionarTecla('J')">J</div>
+                <div class="key" onclick="presionarTecla('K')">K</div>
+                <div class="key" onclick="presionarTecla('L')">L</div>
+                <div class="key" onclick="presionarTecla('Ñ')">Ñ</div>
+            </div>
+            <div class="keyboard-row">
+                <div class="key special" onclick="borrarTecla()">⌫</div>
+                <div class="key" onclick="presionarTecla('Z')">Z</div>
+                <div class="key" onclick="presionarTecla('X')">X</div>
+                <div class="key" onclick="presionarTecla('C')">C</div>
+                <div class="key" onclick="presionarTecla('V')">V</div>
+                <div class="key" onclick="presionarTecla('B')">B</div>
+                <div class="key" onclick="presionarTecla('N')">N</div>
+                <div class="key" onclick="presionarTecla('M')">M</div>
+                <div class="key enter" onclick="validarPalabra()">✓ OK</div>
+            </div>
+        </div>
+
         <footer>
             <div>Desarrollado por <a href="https://instagram.com/fran_giga" target="_blank">fran_giga</a></div>
-            <div class="visit-counter">
-                👁 Visitas: <span class="count" id="visit-count">...</span>
-            </div>
         </footer>
     </div>
 
@@ -530,8 +575,8 @@
             </div>
             <div class="modal-body help-text">
                 <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p>
-                <p>1. Pulsa en <strong>"Nueva Tirada"</strong>, las letras o <strong>"↻"</strong> para obtener 1 vocal y 2 consonantes.</p>
-                <p>2. Escribe palabras válidas en español (RAE) que contengan obligatoriamente esas tres letras.</p>
+                <p>1. Pulsa en <strong>"Nueva Tirada"</strong> para obtener 1 vocal y 2 consonantes.</p>
+                <p>2. Escribe palabras válidas usando el teclado en pantalla que contengan obligatoriamente las tres letras requeridas.</p>
                 <p>3. Tienes <strong>3 minutos</strong> por turno. Los fallos no restan puntos.</p>
                 <p style="color: var(--yellow-medium);"><em>Nota: Durante la ayuda el tiempo avanza a la mitad de velocidad.</em></p>
             </div>
@@ -550,40 +595,19 @@
         let temporizador = null;
         let enJuego = false;
         let isHelpOpen = false;
+        let palabraActual = '';
 
         const elDice = [document.getElementById('die1'), document.getElementById('die2'), document.getElementById('die3')];
         const elTimer = document.getElementById('timer');
         const elScore = document.getElementById('score');
         const elRecord = document.getElementById('record');
-        const elInput = document.getElementById('word-input');
-        const elValidateBtn = document.getElementById('validate-btn');
+        const elWordDisplay = document.getElementById('word-display');
         const elWordList = document.getElementById('word-list');
         const elWordCount = document.getElementById('word-count');
         const elFeedback = document.getElementById('feedback');
 
         let recordLocal = localStorage.getItem('cazapalabras_record') || 0;
         elRecord.textContent = recordLocal;
-
-        // Contador de visitas usando CountAPI
-        async function gestionarContadorVisitas() {
-            const elVisitCount = document.getElementById('visit-count');
-            try {
-                // Servicio gratuito CountAPI
-                const res = await fetch('https://api.countapi.xyz/hit/cazapalabras-fran-giga/visitas');
-                if (res.ok) {
-                    const data = await res.json();
-                    elVisitCount.textContent = data.value.toLocaleString();
-                } else {
-                    throw new Error();
-                }
-            } catch (e) {
-                // Fallback local en caso de que la API esté inaccesible
-                let localVisitas = parseInt(localStorage.getItem('cazapalabras_visitas_local') || '100', 10) + 1;
-                localStorage.setItem('cazapalabras_visitas_local', localVisitas);
-                elVisitCount.textContent = localVisitas.toLocaleString();
-            }
-        }
-        gestionarContadorVisitas();
 
         function tirarDados() {
             const d1 = dadoVocales[Math.floor(Math.random() * dadoVocales.length)];
@@ -611,6 +635,8 @@
             actualizarListaPalabrasUI();
             puntuacion = 0;
             elScore.textContent = '0';
+            palabraActual = '';
+            actualizarDisplayPalabra();
             mostrarFeedback('');
             
             letrasActuales = tirarDados();
@@ -619,13 +645,46 @@
             actualizarTimerDisplay();
             enJuego = true;
 
-            elInput.disabled = false;
-            elValidateBtn.disabled = false;
-            elInput.value = '';
-            elInput.focus();
-
             iniciarTemporizador();
         }
+
+        function presionarTecla(letra) {
+            if (!enJuego) return;
+            if (palabraActual.length < 20) {
+                palabraActual += letra;
+                actualizarDisplayPalabra();
+            }
+        }
+
+        function borrarTecla() {
+            if (!enJuego) return;
+            if (palabraActual.length > 0) {
+                palabraActual = palabraActual.slice(0, -1);
+                actualizarDisplayPalabra();
+            }
+        }
+
+        function actualizarDisplayPalabra() {
+            if (palabraActual.length > 0) {
+                elWordDisplay.textContent = palabraActual;
+                elWordDisplay.classList.add('active');
+            } else {
+                elWordDisplay.innerHTML = '<span class="placeholder">ESCRIBE TU PALABRA...</span>';
+                elWordDisplay.classList.remove('active');
+            }
+        }
+
+        // Manejo del teclado físico del PC por si se juega en ordenador
+        document.addEventListener('keydown', (e) => {
+            if (!enJuego) return;
+            if (e.key === 'Backspace') {
+                borrarTecla();
+            } else if (e.key === 'Enter') {
+                validarPalabra();
+            } else if (/^[a-zA-ZñÑ]$/.test(e.key)) {
+                presionarTecla(e.key.toUpperCase());
+            }
+        });
 
         function iniciarTemporizador() {
             pararTemporizador();
@@ -654,8 +713,6 @@
         function finalizarTurno() {
             pararTemporizador();
             enJuego = false;
-            elInput.disabled = true;
-            elValidateBtn.disabled = true;
             mostrarFeedback('¡Tiempo agotado!', 'error');
             
             if (puntuacion > recordLocal) {
@@ -718,18 +775,18 @@
         async function validarPalabra() {
             if (!enJuego) return;
             
-            const palabraIngresada = elInput.value.trim();
+            const palabraIngresada = palabraActual.trim();
             const palabraNormalizada = normalizarParaComparar(palabraIngresada);
             
             if (!palabraIngresada || palabraNormalizada.length < 3) {
                 mostrarFeedback('Escribe al menos 3 letras', 'error');
-                elInput.value = '';
                 return;
             }
 
             if (palabrasAceptadas.has(palabraNormalizada)) {
                 mostrarFeedback(`¡Ya usaste "${palabraIngresada.toUpperCase()}"!`, 'error');
-                elInput.value = '';
+                palabraActual = '';
+                actualizarDisplayPalabra();
                 return;
             }
 
@@ -745,11 +802,11 @@
 
             if (!contieneTodas) {
                 mostrarFeedback(`Requiere las letras: ${letrasActuales.join(', ')}`, 'error');
-                elInput.value = '';
+                palabraActual = '';
+                actualizarDisplayPalabra();
                 return;
             }
 
-            elValidateBtn.disabled = true;
             mostrarFeedback('Comprobando RAE...', '');
 
             const existe = await comprobarExistenciaPalabra(palabraIngresada);
@@ -760,9 +817,8 @@
                 mostrarFeedback(`"${palabraIngresada.toUpperCase()}" no figura en la RAE.`, 'error');
             }
 
-            elValidateBtn.disabled = false;
-            elInput.value = '';
-            elInput.focus();
+            palabraActual = '';
+            actualizarDisplayPalabra();
         }
 
         function registrarAcierto(palabraMostrar, palabraClave) {
@@ -814,10 +870,6 @@
             if (enJuego) iniciarTemporizador();
             document.getElementById('modal-ayuda').classList.remove('active');
         }
-
-        elInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') validarPalabra();
-        });
     </script>
 </body>
 </html>
