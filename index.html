@@ -87,6 +87,14 @@
             text-shadow: 0 0 16px rgba(255, 204, 0, 0.6);
         }
 
+        .header-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+            align-items: center;
+        }
+
         .multiplayer-trigger-btn {
             background: linear-gradient(145deg, #2ea043, #1e6b2c);
             color: #ffffff;
@@ -100,6 +108,15 @@
             box-shadow: 0 0 10px rgba(63, 185, 80, 0.4);
             text-transform: uppercase;
             transition: all 0.15s ease;
+            width: 70%;
+            text-align: center;
+        }
+
+        .multiplayer-trigger-btn.multitimer-btn {
+            background: linear-gradient(145deg, #212e24, #151f18);
+            color: var(--yellow-medium);
+            border-color: var(--yellow-medium);
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
         }
 
         .multiplayer-trigger-btn:active {
@@ -160,6 +177,7 @@
         .stat-value.time {
             color: var(--yellow-medium);
             text-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+            text-align: center;
         }
 
         .dice-section {
@@ -395,6 +413,7 @@
             flex-direction: column;
             padding: 18px;
             box-shadow: 0 0 30px rgba(0,0,0,0.9), 0 0 20px rgba(63, 185, 80, 0.3);
+            position: relative;
         }
 
         .modal-header {
@@ -423,7 +442,7 @@
             cursor: pointer;
             font-weight: bold;
             position: absolute;
-            right: 35px;
+            right: 18px;
         }
 
         .modal-body {
@@ -439,15 +458,19 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            align-items: center;
         }
 
         .code-input-group {
             display: flex;
             gap: 8px;
+            width: 100%;
+            justify-content: center;
         }
 
         .code-input-group input {
             flex: 1;
+            max-width: 160px;
             background: rgba(0,0,0,0.6);
             border: 2px solid var(--yellow-medium);
             border-radius: 10px;
@@ -470,6 +493,37 @@
             cursor: pointer;
         }
 
+        .time-select-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .time-select-group label {
+            font-size: 0.75rem;
+            color: var(--yellow-medium);
+            font-weight: 700;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .time-select-group select {
+            background: rgba(0,0,0,0.6);
+            border: 2px solid var(--green-bright);
+            border-radius: 10px;
+            padding: 8px 12px;
+            color: var(--text-main);
+            font-size: 1rem;
+            font-weight: 800;
+            text-align: center;
+            text-align-last: center;
+            outline: none;
+            width: 80%;
+            cursor: pointer;
+        }
+
         .btn-gen-code {
             background: linear-gradient(145deg, #3fb950, #2ea043);
             color: #fff;
@@ -480,6 +534,7 @@
             cursor: pointer;
             text-transform: uppercase;
             text-align: center;
+            width: 100%;
         }
 
         .rules-card {
@@ -490,6 +545,7 @@
             font-size: 0.8rem;
             color: var(--text-muted);
             text-align: center;
+            width: 100%;
         }
 
         .rules-card h4 {
@@ -552,7 +608,10 @@
                 <h1>CAZAPALABRAS</h1>
                 <button class="icon-btn" onclick="abrirAyuda()" title="Ayuda">?</button>
             </div>
-            <button class="multiplayer-trigger-btn" onclick="abrirModalMultiplayer()">⚔ MULTIJUGADOR</button>
+            <div class="header-buttons">
+                <button class="multiplayer-trigger-btn" onclick="abrirModalMultiplayer()">⚔ MULTIJUGADOR</button>
+                <button class="multiplayer-trigger-btn multitimer-btn" onclick="abrirModalMultitimer()">⏱ MULTITIMER</button>
+            </div>
         </header>
 
         <div class="stats-container">
@@ -631,7 +690,7 @@
         </footer>
     </div>
 
-    <!-- Modal Multijugador -->
+    <!-- Modal Multijugador Estándar -->
     <div class="modal-overlay" id="modal-multiplayer">
         <div class="modal-content">
             <div class="modal-header">
@@ -640,18 +699,58 @@
             </div>
             <div class="modal-body">
                 <div class="multiplayer-box">
-                    <button class="btn-gen-code" onclick="generarCodigoMultijugador()">Crear Nueva Sala</button>
+                    <button class="btn-gen-code" onclick="generarCodigoMultijugador('room-code-input')">Crear Nueva Sala (3 min)</button>
                     <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted);">o introduce un código existente:</div>
                     <div class="code-input-group">
                         <input type="text" id="room-code-input" placeholder="CÓDIGO" maxlength="6">
-                        <button onclick="unirseASala()">UNIRSE</button>
+                        <button onclick="unirseASala('room-code-input', 180)">UNIRSE</button>
                     </div>
 
                     <div class="rules-card">
                         <h4>Mecánica de la Sala Multijugador:</h4>
                         <p>1. Un jugador <strong>crea la sala</strong> y comparte el código con sus rivales.</p>
                         <p>2. Todos los jugadores con el mismo código jugarán exactamente con las <strong>mismas tiradas de dados</strong>.</p>
-                        <p>3. La partida arranca de forma simultánea. ¡Compara la puntuación obtenida al finalizar los 3 minutos para saber quién es el ganador!</p>
+                        <p>3. La partida arranca de forma simultánea. ¡Compara la puntuación obtenida al finalizar el tiempo para saber quién es el ganador!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Multitimer (Tiempo Personalizado) -->
+    <div class="modal-overlay" id="modal-multitimer">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title">Modo Multitimer</span>
+                <button class="close-modal" onclick="cerrarModalMultitimer()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="multiplayer-box">
+                    <div class="time-select-group">
+                        <label for="custom-time-select">Selecciona el tiempo de juego:</label>
+                        <select id="custom-time-select">
+                            <option value="60">1 Minuto</option>
+                            <option value="120">2 Minutos</option>
+                            <option value="180" selected>3 Minutos (Original)</option>
+                            <option value="300">5 Minutos</option>
+                            <option value="600">10 Minutos</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-gen-code" onclick="generarCodigoMultijugador('multitimer-code-input')">Crear Sala con Tiempo Personalizado</button>
+                    
+                    <div style="text-align: center; font-size: 0.75rem; color: var(--text-muted);">o unirse a sala multitimer existente:</div>
+                    
+                    <div class="code-input-group">
+                        <input type="text" id="multitimer-code-input" placeholder="CÓDIGO" maxlength="6">
+                        <button onclick="unirseASalaMultitimer()">UNIRSE</button>
+                    </div>
+
+                    <div class="rules-card">
+                        <h4>Mecánica del Modo Multitimer:</h4>
+                        <p>1. Configura la duración de la partida a tu gusto, manteniendo los 3 minutos predeterminados o estableciendo un nuevo límite.</p>
+                        <p>2. Genera una nueva sala con el tiempo seleccionado y comparte el código exclusivo con tus competidores.</p>
+                        <p>3. Todos competirán con exactamente las mismas letras y duraciones de temporizador de manera simultánea.</p>
                     </div>
                 </div>
             </div>
@@ -684,7 +783,7 @@
                 <p style="text-align: center; margin-bottom: 8px;"><strong>¡Bienvenido a CAZAPALABRAS!</strong></p>
                 <p style="text-align: center; margin-bottom: 6px;">1. Pulsa en <strong>"Nueva Tirada"</strong> para obtener 1 vocal y 2 consonantes.</p>
                 <p style="text-align: center; margin-bottom: 6px;">2. Escribe palabras válidas usando el teclado que contengan obligatoriamente las tres letras requeridas.</p>
-                <p style="text-align: center;">3. Tienes <strong>3 minutos</strong> por turno. Los fallos no restan puntos.</p>
+                <p style="text-align: center;">3. Tienes el tiempo configurado por turno. Los fallos no restan puntos.</p>
             </div>
         </div>
     </div>
@@ -747,6 +846,7 @@
         let letrasActuales = [];
         let palabrasAceptadas = new Set();
         let puntuacion = 0;
+        let tiempoConfigurado = 180;
         let tiempoRestante = 180;
         let temporizador = null;
         let enJuego = false;
@@ -797,6 +897,7 @@
 
         function reiniciarJuego() {
             isMultiplayer = false;
+            tiempoConfigurado = 180;
             iniciarTurno();
         }
 
@@ -813,7 +914,7 @@
             
             letrasActuales = tirarDados();
             
-            tiempoRestante = 180;
+            tiempoRestante = tiempoConfigurado;
             actualizarTimerDisplay();
             enJuego = true;
 
@@ -1030,7 +1131,7 @@
             });
         }
 
-        // --- SISTEMA MULTIJUGADOR POR CÓDIGO ---
+        // --- SISTEMA MULTIJUGADOR Y MULTITIMER POR CÓDIGO ---
         function stringToSeed(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
@@ -1039,26 +1140,33 @@
             return Math.abs(hash);
         }
 
-        function generarCodigoMultijugador() {
+        function generarCodigoMultijugador(inputId) {
             const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
             let code = '';
             for (let i = 0; i < 5; i++) {
                 code += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-            document.getElementById('room-code-input').value = code;
+            document.getElementById(inputId).value = code;
         }
 
-        function unirseASala() {
-            const code = document.getElementById('room-code-input').value.trim().toUpperCase();
+        function unirseASala(inputId, duracion) {
+            const code = document.getElementById(inputId).value.trim().toUpperCase();
             if (code.length < 3) {
                 alert('Introduce un código de sala válido.');
                 return;
             }
             isMultiplayer = true;
             seedActual = stringToSeed(code);
+            tiempoConfigurado = duracion;
             cerrarModalMultiplayer();
+            cerrarModalMultitimer();
             iniciarTurno();
-            mostrarFeedback(`Sala Multijugador: ${code}`, 'success');
+            mostrarFeedback(`Sala Multijugador: ${code} (${duracion / 60}m)`, 'success');
+        }
+
+        function unirseASalaMultitimer() {
+            const duracion = parseInt(document.getElementById('custom-time-select').value, 10);
+            unirseASala('multitimer-code-input', duracion);
         }
 
         function abrirModalMultiplayer() {
@@ -1067,6 +1175,14 @@
 
         function cerrarModalMultiplayer() {
             document.getElementById('modal-multiplayer').classList.remove('active');
+        }
+
+        function abrirModalMultitimer() {
+            document.getElementById('modal-multitimer').classList.add('active');
+        }
+
+        function cerrarModalMultitimer() {
+            document.getElementById('modal-multitimer').classList.remove('active');
         }
 
         function abrirModalPalabras() {
