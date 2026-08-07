@@ -54,7 +54,6 @@
             padding: 12px 16px;
         }
 
-        /* Header con 3 columnas equilibradas */
         header {
             width: 100%;
             display: grid;
@@ -95,7 +94,6 @@
             box-shadow: 0 0 15px rgba(230, 184, 0, 0.4);
         }
 
-        /* Stats Bar */
         .stats-container {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -131,7 +129,6 @@
             text-shadow: 0 0 10px rgba(230, 184, 0, 0.5);
         }
 
-        /* Botones de Letras Interactivos con Brillo */
         .dice-section {
             display: flex;
             justify-content: center;
@@ -187,7 +184,6 @@
             100% { transform: scale(1); }
         }
 
-        /* Validador */
         .validador-section {
             width: 100%;
             background-color: var(--bg-card);
@@ -298,7 +294,6 @@
             box-shadow: none !important;
         }
 
-        /* Modales */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -387,7 +382,6 @@
             box-shadow: 0 0 6px rgba(230, 184, 0, 0.2);
         }
 
-        /* Footer Integrado */
         footer {
             width: 100%;
             text-align: center;
@@ -482,7 +476,7 @@
             <div class="modal-body">
                 <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p><br>
                 <p>1. Pulsa en <strong>"Nueva Tirada"</strong>, las letras o <strong>"↻"</strong> para obtener 1 vocal y 2 consonantes.</p><br>
-                <p>2. Escribe palabras válidas en español que contengan obligatoriamente esas tres letras.</p><br>
+                <p>2. Escribe palabras válidas en español (RAE) que contengan obligatoriamente esas tres letras.</p><br>
                 <p>3. Tienes <strong>5 minutos</strong> por turno. Los fallos no restan puntos.</p><br>
                 <p style="color: var(--yellow-medium);"><em>Nota:</em> Durante la ventana de ayuda, el tiempo avanza a la mitad de velocidad.</p>
             </div>
@@ -594,10 +588,18 @@
             }
         }
 
-        function normalizar(texto) {
-            return texto.toUpperCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
+        // Elimina tildes respetando la Ñ/ñ
+        function quitarAcentos(str) {
+            return str
+                .replace(/ñ/g, '__n__').replace(/Ñ/g, '__N__')
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/__n__/g, 'ñ').replace(/__N__/g, 'Ñ');
+        }
+
+        function normalizarParaComparar(texto) {
+            return quitarAcentos(texto)
+                .toUpperCase()
+                .replace(/Ñ/g, 'N')
                 .trim();
         }
 
@@ -606,28 +608,36 @@
             elFeedback.className = `feedback-msg ${tipo}`;
         }
 
-        // Validador híbrido multicapa (RAE / Wiktionary)
-        async function comprobarExistenciaPalabra(word) {
-            const palabraLower = word.toLowerCase();
+        // Validador oficial del léxico en español (incluye RAE, gentilicios y conjugaciones)
+        async function comprobarExistenciaPalabra(wordOriginal) {
+            const palabraNorm = wordOriginal.trim().toLowerCase();
 
-            // Consulta 1: API de Wiktionary / Wordnik en español
+            // 1. Wiktionary por título exacto (respeta la 'ñ' y gentiles como 'albaceteño')
             try {
-                const resWikt = await fetch(`https://es.wiktionary.org/w/api.php?action=query&titles=${palabraLower}&format=json&origin=*`);
-                const dataWikt = await resWikt.json();
-                const pages = dataWikt.query.pages;
-                if (!pages['-1']) return true;
+                const url = `https://es.wiktionary.org/w/api.php?action=query&titles=${encodeURIComponent(palabraNorm)}&format=json&origin=*`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const pages = data.query.pages;
+                if (pages && !pages['-1']) return true;
             } catch (e) {}
 
-            // Consulta 2: Free Dictionary API (soporta formas conjugadas y lemas)
+            // 2. Búsqueda por coincidencia fonética/ortográfica
             try {
-                const resDict = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/es/${palabraLower}`);
+                const urlSearch = `https://es.wiktionary.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(palabraNorm)}&format=json&origin=*`;
+                const resSearch = await fetch(urlSearch);
+                const dataSearch = await resSearch.json();
+                if (dataSearch.query && dataSearch.query.search && dataSearch.query.search.length > 0) {
+                    const firstResult = dataSearch.query.search[0].title.toLowerCase();
+                    if (quitarAcentos(firstResult) === quitarAcentos(palabraNorm)) {
+                        return true;
+                    }
+                }
+            } catch (e) {}
+
+            // 3. Fallback en API secundaria de diccionario español
+            try {
+                const resDict = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/es/${encodeURIComponent(palabraNorm)}`);
                 if (resDict.ok) return true;
-            } catch (e) {}
-
-            // Consulta 3: Fallback a búsqueda directa de lemas RAE/Open Lexicon
-            try {
-                const resData = await fetch(`https://definicion.de/${palabraLower}/`);
-                if (resData.ok) return true;
             } catch (e) {}
 
             return false;
@@ -635,22 +645,24 @@
 
         async function validarPalabra() {
             if (!enJuego) return;
-            const palabra = normalizar(elInput.value);
             
-            if (!palabra || palabra.length < 3) {
+            const palabraIngresada = elInput.value.trim();
+            const palabraNormalizada = normalizarParaComparar(palabraIngresada);
+            
+            if (!palabraIngresada || palabraNormalizada.length < 3) {
                 mostrarFeedback('Escribe al menos 3 letras', 'error');
                 elInput.value = '';
                 return;
             }
 
-            if (palabrasAceptadas.has(palabra)) {
-                mostrarFeedback(`¡Ya usaste "${palabra}"!`, 'error');
+            if (palabrasAceptadas.has(palabraNormalizada)) {
+                mostrarFeedback(`¡Ya usaste "${palabraIngresada.toUpperCase()}"!`, 'error');
                 elInput.value = '';
                 return;
             }
 
-            // Validar contención de letras (mantiene la puntuación intacta si falla)
-            const letrasPalabra = palabra.split('');
+            // Comprobar presencia de letras requeridas (tratando Ñ como N)
+            const letrasPalabra = palabraNormalizada.split('');
             const contieneTodas = letrasActuales.every(letra => {
                 const idx = letrasPalabra.indexOf(letra);
                 if (idx !== -1) {
@@ -666,16 +678,16 @@
                 return;
             }
 
-            // Validar existencia real
+            // Comprobar existencia real en el diccionario RAE / español
             elValidateBtn.disabled = true;
-            mostrarFeedback('Comprobando en diccionario...', '');
+            mostrarFeedback('Comprobando RAE...', '');
 
-            const existe = await comprobarExistenciaPalabra(palabra);
+            const existe = await comprobarExistenciaPalabra(palabraIngresada);
 
             if (existe) {
-                registrarAcierto(palabra);
+                registrarAcierto(palabraIngresada, palabraNormalizada);
             } else {
-                mostrarFeedback(`"${palabra}" no figura en el diccionario.`, 'error');
+                mostrarFeedback(`"${palabraIngresada.toUpperCase()}" no figura en la RAE.`, 'error');
             }
 
             elValidateBtn.disabled = false;
@@ -683,25 +695,32 @@
             elInput.focus();
         }
 
-        function registrarAcierto(palabra) {
-            palabrasAceptadas.add(palabra);
-            puntuacion += palabra.length;
+        function registrarAcierto(palabraMostrar, palabraClave) {
+            palabrasAceptadas.add(palabraClave);
+            puntuacion += palabraClave.length;
             elScore.textContent = puntuacion;
             elWordCount.textContent = palabrasAceptadas.size;
-            mostrarFeedback(`¡"${palabra}" válida! (+${palabra.length} pts)`, 'success');
-            actualizarListaPalabrasUI();
+            mostrarFeedback(`¡"${palabraMostrar.toUpperCase()}" válida! (+${palabraClave.length} pts)`, 'success');
+            actualizarListaPalabrasUI(palabraMostrar.toUpperCase(), palabraClave.length);
         }
 
-        function actualizarListaPalabrasUI() {
-            if (palabrasAceptadas.size === 0) {
+        let listaPalabrasGuardadas = [];
+
+        function actualizarListaPalabrasUI(palabra, longitud) {
+            if (palabra && longitud) {
+                listaPalabrasGuardadas.push({ palabra, longitud });
+            }
+
+            if (listaPalabrasGuardadas.length === 0) {
                 elWordList.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Aún no has validado ninguna palabra.</p>';
                 return;
             }
+            
             elWordList.innerHTML = '';
-            palabrasAceptadas.forEach(palabra => {
+            listaPalabrasGuardadas.forEach(item => {
                 const tag = document.createElement('div');
                 tag.className = 'word-tag';
-                tag.textContent = `${palabra} (${palabra.length})`;
+                tag.textContent = `${item.palabra} (${item.longitud})`;
                 elWordList.appendChild(tag);
             });
         }
