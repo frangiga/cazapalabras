@@ -7,13 +7,15 @@
     <style>
         :root {
             --bg-dark: #121212;
-            --bg-card: #1e1e1e;
-            --bg-modal: #282828;
-            --green-neon: #00ff88;
-            --yellow-neon: #ccff00;
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --border-color: #333333;
+            --bg-card: #1c221e;
+            --bg-modal: #222a25;
+            --green-carriage: #1e4d2b;
+            --green-light: #2e7243;
+            --yellow-medium: #e6b800;
+            --yellow-hover: #ffcc00;
+            --text-main: #f0f0f0;
+            --text-muted: #99a39d;
+            --border-color: #2d3b31;
         }
 
         * {
@@ -48,16 +50,14 @@
             font-size: 1.8rem;
             font-weight: 900;
             text-transform: uppercase;
-            background: linear-gradient(90deg, var(--green-neon), var(--yellow-neon));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--yellow-medium);
             letter-spacing: 2px;
         }
 
         .help-icon-btn {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            color: var(--yellow-neon);
+            color: var(--yellow-medium);
             font-weight: bold;
             font-size: 0.85rem;
             padding: 6px 12px;
@@ -97,104 +97,49 @@
         }
 
         .stat-value.time {
-            color: var(--green-neon);
+            color: var(--yellow-medium);
         }
 
-        /* Dados 3D Estilo Convencional */
+        /* Botones Interactivos de Letras */
         .dice-section {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             width: 100%;
             max-width: 480px;
             margin-bottom: 25px;
-            perspective: 800px;
         }
 
-        .die-container {
-            text-align: center;
+        .letter-btn {
             flex: 1;
-        }
-
-        .dice-3d {
-            width: 100%;
             aspect-ratio: 1 / 1;
-            position: relative;
-            transform-style: preserve-3d;
-            transform: rotateX(-15deg) rotateY(25deg);
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-        }
-
-        .dice-3d.shake {
-            animation: rollDice 0.5s ease-in-out;
-        }
-
-        @keyframes rollDice {
-            0% { transform: rotateX(0deg) rotateY(0deg) scale(1); }
-            33% { transform: rotateX(360deg) rotateY(180deg) scale(1.1); }
-            66% { transform: rotateX(720deg) rotateY(360deg) scale(0.95); }
-            100% { transform: rotateX(-15deg) rotateY(25deg) scale(1); }
-        }
-
-        .face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: #1a1a1a;
+            background: var(--green-carriage);
+            border: 2px solid var(--green-light);
             border-radius: 14px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 2.2rem;
             font-weight: 900;
-            box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
+            color: var(--text-main);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.2s ease;
+            user-select: none;
         }
 
-        /* Caras de los dados en 3D volumétrico */
-        .face.front {
-            transform: translateZ(36px);
-        }
-        .face.back {
-            transform: rotateY(180deg) translateZ(36px);
-            font-size: 1rem;
-            color: var(--text-muted);
-        }
-        .face.right {
-            transform: rotateY(90deg) translateZ(36px);
-        }
-        .face.left {
-            transform: rotateY(-90deg) translateZ(36px);
-        }
-        .face.top {
-            transform: rotateX(90deg) translateZ(36px);
-        }
-        .face.bottom {
-            transform: rotateX(-90deg) translateZ(36px);
+        .letter-btn:active {
+            transform: scale(0.95);
         }
 
-        /* Colores de bordes y letras por tipo de dado */
-        .die-container.vocal .face {
-            border: 2px solid var(--green-neon);
-            color: var(--green-neon);
-            box-shadow: inset 0 0 12px rgba(0,255,136,0.2), 0 0 15px rgba(0,255,136,0.2);
-        }
-        .die-container.conso1 .face {
-            border: 2px solid var(--green-neon);
-            color: var(--green-neon);
-            box-shadow: inset 0 0 12px rgba(0,255,136,0.2), 0 0 15px rgba(0,255,136,0.2);
-        }
-        .die-container.conso2 .face {
-            border: 2px solid var(--yellow-neon);
-            color: var(--yellow-neon);
-            box-shadow: inset 0 0 12px rgba(204,255,0,0.2), 0 0 15px rgba(204,255,0,0.2);
+        .letter-btn.shake {
+            animation: pulseBtn 0.4s ease-in-out;
         }
 
-        .die-label {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            margin-top: 10px;
-            text-transform: uppercase;
+        @keyframes pulseBtn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); background-color: var(--green-light); }
+            100% { transform: scale(1); }
         }
 
         /* Validador */
@@ -225,7 +170,7 @@
 
         input[type="text"] {
             flex: 2;
-            background-color: rgba(255,255,255,0.05);
+            background-color: rgba(0,0,0,0.3);
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 12px;
@@ -236,12 +181,12 @@
 
         input[type="text"]:focus {
             outline: none;
-            border-color: var(--yellow-neon);
+            border-color: var(--yellow-medium);
         }
 
         button.validate-btn {
             flex: 1;
-            background-color: var(--green-neon);
+            background-color: var(--yellow-medium);
             color: var(--bg-dark);
             border: none;
             border-radius: 8px;
@@ -252,6 +197,10 @@
             text-transform: uppercase;
         }
 
+        button.validate-btn:hover {
+            background-color: var(--yellow-hover);
+        }
+
         .action-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -259,9 +208,9 @@
         }
 
         button.action-btn {
-            background-color: var(--yellow-neon);
-            color: var(--bg-dark);
-            border: none;
+            background-color: var(--green-carriage);
+            color: var(--text-main);
+            border: 1px solid var(--green-light);
             border-radius: 8px;
             padding: 12px;
             font-weight: 700;
@@ -273,8 +222,8 @@
 
         button.words-btn {
             background-color: var(--bg-modal);
-            color: var(--yellow-neon);
-            border: 1px solid var(--yellow-neon);
+            color: var(--yellow-medium);
+            border: 1px solid var(--yellow-medium);
         }
 
         button:disabled {
@@ -289,7 +238,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.85);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -315,7 +264,7 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
         .modal-header {
@@ -331,7 +280,7 @@
             font-size: 1rem;
             font-weight: 800;
             text-transform: uppercase;
-            color: var(--yellow-neon);
+            color: var(--yellow-medium);
         }
 
         .close-modal {
@@ -349,7 +298,7 @@
             margin-bottom: 15px;
             font-size: 0.9rem;
             line-height: 1.5;
-            color: #ddd;
+            color: var(--text-main);
         }
 
         .words-grid {
@@ -364,9 +313,9 @@
             padding: 6px 12px;
             border-radius: 20px;
             text-transform: uppercase;
-            background-color: rgba(0, 255, 136, 0.1);
-            color: var(--green-neon);
-            border: 1px solid var(--green-neon);
+            background-color: rgba(230, 184, 0, 0.15);
+            color: var(--yellow-medium);
+            border: 1px solid var(--yellow-medium);
         }
 
         /* Footer */
@@ -374,7 +323,7 @@
             width: 100%;
             max-width: 480px;
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             padding: 15px 0;
             border-top: 1px solid var(--border-color);
@@ -382,8 +331,13 @@
         }
 
         footer a {
-            color: var(--green-neon);
+            color: var(--yellow-medium);
             text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -410,39 +364,9 @@
     </div>
 
     <div class="dice-section">
-        <div class="die-container vocal">
-            <div class="dice-3d" id="die1">
-                <div class="face front">?</div>
-                <div class="face back">·</div>
-                <div class="face right">·</div>
-                <div class="face left">·</div>
-                <div class="face top">·</div>
-                <div class="face bottom">·</div>
-            </div>
-            <div class="die-label">Vocal</div>
-        </div>
-        <div class="die-container conso1">
-            <div class="dice-3d" id="die2">
-                <div class="face front">?</div>
-                <div class="face back">·</div>
-                <div class="face right">·</div>
-                <div class="face left">·</div>
-                <div class="face top">·</div>
-                <div class="face bottom">·</div>
-            </div>
-            <div class="die-label">Consonante 1</div>
-        </div>
-        <div class="die-container conso2">
-            <div class="dice-3d" id="die3">
-                <div class="face front">?</div>
-                <div class="face back">·</div>
-                <div class="face right">·</div>
-                <div class="face left">·</div>
-                <div class="face top">·</div>
-                <div class="face bottom">·</div>
-            </div>
-            <div class="die-label">Consonante 2</div>
-        </div>
+        <div class="letter-btn" id="die1" onclick="iniciarTurno()">?</div>
+        <div class="letter-btn" id="die2" onclick="iniciarTurno()">?</div>
+        <div class="letter-btn" id="die3" onclick="iniciarTurno()">?</div>
     </div>
 
     <div class="validador-section">
@@ -481,17 +405,16 @@
             </div>
             <div class="modal-body">
                 <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p><br>
-                <p>1. Tira los dados para obtener 1 vocal y 2 consonantes.</p><br>
+                <p>1. Pulsa en "Nueva Tirada" o en las letras para obtener 1 vocal y 2 consonantes al azar.</p><br>
                 <p>2. Escribe todas las palabras posibles en español que contengan obligatoriamente esas tres letras.</p><br>
                 <p>3. Tienes <strong>5 minutos</strong> por turno. Las palabras no se pueden repetir.</p><br>
-                <p style="color: var(--yellow-neon);"><em>Nota especial:</em> Mientras tengas abierta esta ventana de ayuda, el tiempo pasa a la mitad de velocidad para darte tregua.</p>
+                <p style="color: var(--yellow-medium);"><em>Nota especial:</em> Mientras tengas abierta esta ventana de ayuda, el tiempo pasa a la mitad de velocidad para darte tregua.</p>
             </div>
         </div>
     </div>
 
     <footer>
-        © fran_giga - Ver. 2.0<br>
-        <a href="https://instagram.com/fran_giga" target="_blank">instagram.com/fran_giga</a>
+        Desarrollado por <a href="https://instagram.com/fran_giga" target="_blank">fran_giga</a>
     </footer>
 
     <script>
@@ -502,7 +425,7 @@
         let letrasActuales = [];
         let palabrasAceptadas = new Set();
         let puntuacion = 0;
-        let tiempoRestante = 300; // 5 minutos en segundos
+        let tiempoRestante = 300;
         let temporizador = null;
         let enJuego = false;
         let isHelpOpen = false;
@@ -524,12 +447,12 @@
             const d2 = dadoConsonantes1[Math.floor(Math.random() * dadoConsonantes1.length)];
             const d3 = dadoConsonantes2[Math.floor(Math.random() * dadoConsonantes2.length)];
 
-            elDice.forEach(die => die.classList.add('shake'));
-            setTimeout(() => elDice.forEach(die => die.classList.remove('shake')), 500);
+            elDice.forEach(btn => btn.classList.add('shake'));
+            setTimeout(() => elDice.forEach(btn => btn.classList.remove('shake')), 400);
 
-            elDice[0].querySelector('.front').textContent = d1;
-            elDice[1].querySelector('.front').textContent = d2;
-            elDice[2].querySelector('.front').textContent = d3;
+            elDice[0].textContent = d1;
+            elDice[1].textContent = d2;
+            elDice[2].textContent = d3;
 
             return [d1, d2, d3];
         }
@@ -557,7 +480,6 @@
 
         function iniciarTemporizador() {
             pararTemporizador();
-            // Si la ayuda está abierta, el intervalo es de 2000ms (mitad de velocidad), si no 1000ms
             const velocidadTick = isHelpOpen ? 2000 : 1000;
 
             temporizador = setInterval(() => {
@@ -659,13 +581,13 @@
 
         function abrirAyuda() {
             isHelpOpen = true;
-            if (enJuego) iniciarTemporizador(); // Reinicia el intervalo a mitad de velocidad
+            if (enJuego) iniciarTemporizador();
             document.getElementById('modal-ayuda').classList.add('active');
         }
 
         function cerrarAyuda() {
             isHelpOpen = false;
-            if (enJuego) iniciarTemporizador(); // Restaura la velocidad normal del temporizador
+            if (enJuego) iniciarTemporizador();
             document.getElementById('modal-ayuda').classList.remove('active');
         }
 
