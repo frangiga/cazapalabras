@@ -6,18 +6,25 @@
     <title>CAZAPALABRAS - fran_giga</title>
     <style>
         :root {
-            --bg-dark: #0d120f;
-            --bg-card: #18221b;
-            --bg-modal: #1e2a22;
-            --green-carriage: #1e4d2b;
-            --green-light: #2e7243;
-            --green-glow: #38a159;
-            --yellow-medium: #e6b800;
-            --yellow-hover: #ffcc00;
-            --yellow-glow: #ffe680;
-            --text-main: #f0f0f0;
-            --text-muted: #99a39d;
-            --border-color: #2b3d30;
+            --bg-dark: #0a0f0b;
+            --bg-card: #131c15;
+            --bg-modal: #18261b;
+            
+            /* Verde más brillante y saturado */
+            --green-carriage: #238636;
+            --green-light: #2ea043;
+            --green-bright: #3fb950;
+            --green-glow: #56d364;
+            
+            /* Amarillos resaltados */
+            --yellow-medium: #ffcc00;
+            --yellow-hover: #ffe066;
+            --yellow-glow: #fff0aa;
+            
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --border-color: #30363d;
+            --border-bright: #238636;
             --error-red: #ff5555;
         }
 
@@ -36,8 +43,8 @@
             overflow: hidden;
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(circle at 50% 0%, rgba(56, 161, 89, 0.15) 0%, transparent 60%),
-                radial-gradient(circle at 50% 100%, rgba(230, 184, 0, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 50% 0%, rgba(63, 185, 80, 0.25) 0%, transparent 60%),
+                radial-gradient(circle at 50% 100%, rgba(255, 204, 0, 0.12) 0%, transparent 50%);
             color: var(--text-main);
         }
 
@@ -57,41 +64,42 @@
         header {
             width: 100%;
             display: grid;
-            grid-template-columns: 40px 1fr 40px;
+            grid-template-columns: 42px 1fr 42px;
             align-items: center;
             margin-bottom: 8px;
         }
 
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 900;
             text-transform: uppercase;
             color: var(--yellow-medium);
             letter-spacing: 2px;
             text-align: center;
-            text-shadow: 0 0 12px rgba(230, 184, 0, 0.4);
+            text-shadow: 0 0 16px rgba(255, 204, 0, 0.6);
         }
 
+        /* Botones superiores estilizados */
         .icon-btn {
-            width: 38px;
-            height: 38px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(145deg, #1c2a1e, #111a13);
+            border: 2px solid var(--green-bright);
             color: var(--yellow-medium);
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5), inset 0 0 8px rgba(230, 184, 0, 0.1);
-            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 10px rgba(63, 185, 80, 0.3);
+            transition: all 0.15s ease;
         }
 
         .icon-btn:active {
-            transform: scale(0.92);
-            box-shadow: 0 0 15px rgba(230, 184, 0, 0.4);
+            transform: scale(0.90);
+            box-shadow: 0 0 15px rgba(63, 185, 80, 0.6);
         }
 
         .stats-container {
@@ -107,7 +115,7 @@
             border-radius: 12px;
             padding: 8px 4px;
             text-align: center;
-            box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.05), 0 4px 8px rgba(0,0,0,0.3);
         }
 
         .stat-label {
@@ -119,14 +127,14 @@
         }
 
         .stat-value {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             font-weight: 800;
             text-shadow: 0 0 8px rgba(255,255,255,0.2);
         }
 
         .stat-value.time {
             color: var(--yellow-medium);
-            text-shadow: 0 0 10px rgba(230, 184, 0, 0.5);
+            text-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
         }
 
         .dice-section {
@@ -137,21 +145,22 @@
             margin: 10px 0;
         }
 
+        /* Dados con verde brillante y más volumen */
         .letter-btn {
             flex: 1;
             aspect-ratio: 1 / 1;
             max-height: 110px;
-            background: linear-gradient(145deg, #256137, #173d22);
-            border: 2px solid var(--green-light);
-            border-radius: 16px;
+            background: linear-gradient(145deg, #2ea043, #1e6b2c);
+            border: 2px solid var(--green-glow);
+            border-radius: 18px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             font-weight: 900;
             color: #ffffff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 10px rgba(255,255,255,0.3);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 0 12px rgba(255,255,255,0.5);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.7), 0 0 15px rgba(63, 185, 80, 0.4), inset 0 2px 3px rgba(255,255,255,0.4);
             cursor: pointer;
             transition: transform 0.1s ease, box-shadow 0.2s ease;
             user-select: none;
@@ -166,12 +175,12 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(60deg, transparent, rgba(255,255,255,0.1), transparent);
+            background: linear-gradient(60deg, transparent, rgba(255,255,255,0.2), transparent);
             transform: rotate(30deg);
         }
 
         .letter-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.94);
         }
 
         .letter-btn.shake {
@@ -180,7 +189,7 @@
 
         @keyframes pulseBtn {
             0% { transform: scale(1); }
-            50% { transform: scale(1.06); box-shadow: 0 0 20px var(--green-glow); }
+            50% { transform: scale(1.08); box-shadow: 0 0 25px var(--green-glow); }
             100% { transform: scale(1); }
         }
 
@@ -190,7 +199,7 @@
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
         }
 
         .section-title {
@@ -213,8 +222,8 @@
             text-overflow: ellipsis;
         }
 
-        .feedback-msg.error { color: var(--error-red); text-shadow: 0 0 8px rgba(255, 85, 85, 0.4); }
-        .feedback-msg.success { color: var(--yellow-medium); text-shadow: 0 0 8px rgba(230, 184, 0, 0.5); }
+        .feedback-msg.error { color: var(--error-red); text-shadow: 0 0 8px rgba(255, 85, 85, 0.5); }
+        .feedback-msg.success { color: var(--yellow-medium); text-shadow: 0 0 10px rgba(255, 204, 0, 0.6); }
 
         .input-group {
             display: flex;
@@ -224,74 +233,83 @@
 
         input[type="text"] {
             flex: 2;
-            background-color: rgba(0,0,0,0.4);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+            background-color: rgba(0,0,0,0.5);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
             padding: 10px;
             color: var(--text-main);
             font-size: 1rem;
             text-transform: uppercase;
             font-weight: 700;
             letter-spacing: 1px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: var(--yellow-medium);
-            box-shadow: 0 0 10px rgba(230, 184, 0, 0.3), inset 0 2px 4px rgba(0,0,0,0.5);
+            border-color: var(--green-bright);
+            box-shadow: 0 0 12px rgba(63, 185, 80, 0.4), inset 0 2px 4px rgba(0,0,0,0.6);
         }
 
+        /* Botón Validar más resaltado */
         button.validate-btn {
             flex: 1;
-            background: linear-gradient(145deg, #ffcc00, #e6b800);
-            color: var(--bg-dark);
-            border: none;
-            border-radius: 10px;
+            background: linear-gradient(145deg, #ffe066, #ffcc00, #e6b800);
+            color: #0d120f;
+            border: 1px solid #ffffff;
+            border-radius: 12px;
             padding: 10px;
-            font-weight: 800;
-            font-size: 0.8rem;
+            font-weight: 900;
+            font-size: 0.85rem;
             cursor: pointer;
             text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(230, 184, 0, 0.3);
-            transition: all 0.1s ease;
+            box-shadow: 0 4px 14px rgba(255, 204, 0, 0.4), inset 0 1px 2px rgba(255,255,255,0.8);
+            transition: all 0.15s ease;
         }
 
         button.validate-btn:active {
-            transform: scale(0.96);
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(255, 204, 0, 0.6);
         }
 
         .action-buttons {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
         }
 
+        /* Botones de acción resaltados */
         button.action-btn {
-            background: linear-gradient(145deg, #256137, #1e4d2b);
-            color: var(--text-main);
-            border: 1px solid var(--green-light);
-            border-radius: 10px;
-            padding: 10px;
-            font-weight: 700;
-            font-size: 0.75rem;
+            background: linear-gradient(145deg, #3fb950, #2ea043, #1e6b2c);
+            color: #ffffff;
+            border: 1px solid var(--green-glow);
+            border-radius: 12px;
+            padding: 12px;
+            font-weight: 800;
+            font-size: 0.8rem;
             cursor: pointer;
             text-transform: uppercase;
             text-align: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 10px rgba(63, 185, 80, 0.3), inset 0 1px 2px rgba(255,255,255,0.4);
+            transition: all 0.15s ease;
+        }
+
+        button.action-btn:active {
+            transform: scale(0.95);
         }
 
         button.words-btn {
-            background: var(--bg-modal);
+            background: linear-gradient(145deg, #212e24, #151f18);
             color: var(--yellow-medium);
-            border: 1px solid var(--yellow-medium);
-            box-shadow: 0 0 8px rgba(230, 184, 0, 0.15);
+            border: 2px solid var(--yellow-medium);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4), 0 0 12px rgba(255, 204, 0, 0.25);
         }
 
         button:disabled {
             opacity: 0.4;
             cursor: not-allowed;
             box-shadow: none !important;
+            transform: none !important;
         }
 
         .modal-overlay {
@@ -319,67 +337,81 @@
 
         .modal-content {
             background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border: 2px solid var(--green-bright);
+            border-radius: 18px;
             width: 100%;
             max-width: 400px;
             max-height: 75vh;
             display: flex;
             flex-direction: column;
-            padding: 18px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.9), 0 0 15px rgba(58, 161, 89, 0.2);
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9), 0 0 20px rgba(63, 185, 80, 0.3);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 8px;
+            padding-bottom: 10px;
         }
 
         .modal-title {
-            font-size: 0.95rem;
+            font-size: 1rem;
             font-weight: 800;
             text-transform: uppercase;
             color: var(--yellow-medium);
+            width: 100%;
+            text-align: center;
         }
 
         .close-modal {
             background: none;
             border: none;
             color: var(--text-muted);
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
             font-weight: bold;
+            position: absolute;
+            right: 35px;
         }
 
         .modal-body {
             overflow-y: auto;
             flex: 1;
             margin-bottom: 10px;
-            font-size: 0.85rem;
-            line-height: 1.4;
+            font-size: 0.9rem;
+            line-height: 1.5;
             color: var(--text-main);
+        }
+
+        /* Texto de ayuda justificado al centro */
+        .help-text {
+            text-align: center;
+        }
+
+        .help-text p {
+            margin-bottom: 12px;
         }
 
         .words-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
+            justify-content: center;
         }
 
         .word-tag {
             font-size: 0.75rem;
             font-weight: 700;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 16px;
             text-transform: uppercase;
-            background-color: rgba(230, 184, 0, 0.15);
+            background-color: rgba(255, 204, 0, 0.15);
             color: var(--yellow-medium);
             border: 1px solid var(--yellow-medium);
-            box-shadow: 0 0 6px rgba(230, 184, 0, 0.2);
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.2);
         }
 
         footer {
@@ -395,7 +427,7 @@
             color: var(--yellow-medium);
             text-decoration: none;
             font-weight: 700;
-            text-shadow: 0 0 6px rgba(230, 184, 0, 0.3);
+            text-shadow: 0 0 6px rgba(255, 204, 0, 0.4);
         }
 
         footer a:hover {
@@ -419,7 +451,7 @@
             </div>
             <div class="stat-box">
                 <div class="stat-label">Tiempo</div>
-                <div class="stat-value time" id="timer">5:00</div>
+                <div class="stat-value time" id="timer">3:00</div>
             </div>
             <div class="stat-box">
                 <div class="stat-label">Récord</div>
@@ -460,7 +492,7 @@
             </div>
             <div class="modal-body">
                 <div class="words-grid" id="word-list">
-                    <p style="color: var(--text-muted); font-style: italic;">Aún no has validado ninguna palabra.</p>
+                    <p style="color: var(--text-muted); font-style: italic; text-align: center; width: 100%;">Aún no has validado ninguna palabra.</p>
                 </div>
             </div>
         </div>
@@ -473,12 +505,12 @@
                 <span class="modal-title">Instrucciones</span>
                 <button class="close-modal" onclick="cerrarAyuda()">✕</button>
             </div>
-            <div class="modal-body">
-                <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p><br>
-                <p>1. Pulsa en <strong>"Nueva Tirada"</strong>, las letras o <strong>"↻"</strong> para obtener 1 vocal y 2 consonantes.</p><br>
-                <p>2. Escribe palabras válidas en español (RAE) que contengan obligatoriamente esas tres letras.</p><br>
-                <p>3. Tienes <strong>5 minutos</strong> por turno. Los fallos no restan puntos.</p><br>
-                <p style="color: var(--yellow-medium);"><em>Nota:</em> Durante la ventana de ayuda, el tiempo avanza a la mitad de velocidad.</p>
+            <div class="modal-body help-text">
+                <p><strong>¡Bienvenido a CAZAPALABRAS!</strong></p>
+                <p>1. Pulsa en <strong>"Nueva Tirada"</strong>, las letras o <strong>"↻"</strong> para obtener 1 vocal y 2 consonantes.</p>
+                <p>2. Escribe palabras válidas en español (RAE) que contengan obligatoriamente esas tres letras.</p>
+                <p>3. Tienes <strong>3 minutos</strong> por turno. Los fallos no restan puntos.</p>
+                <p style="color: var(--yellow-medium);"><em>Nota: Durante la ayuda el tiempo avanza a la mitad de velocidad.</em></p>
             </div>
         </div>
     </div>
@@ -491,7 +523,7 @@
         let letrasActuales = [];
         let palabrasAceptadas = new Set();
         let puntuacion = 0;
-        let tiempoRestante = 300;
+        let tiempoRestante = 180; // Reducido a 3 minutos (180s)
         let temporizador = null;
         let enJuego = false;
         let isHelpOpen = false;
@@ -531,6 +563,7 @@
         function iniciarTurno() {
             pararTemporizador();
             palabrasAceptadas.clear();
+            listaPalabrasGuardadas = [];
             actualizarListaPalabrasUI();
             puntuacion = 0;
             elScore.textContent = '0';
@@ -538,7 +571,7 @@
             
             letrasActuales = tirarDados();
             
-            tiempoRestante = 300;
+            tiempoRestante = 180; // 3 minutos
             actualizarTimerDisplay();
             enJuego = true;
 
@@ -588,7 +621,6 @@
             }
         }
 
-        // Elimina tildes respetando la Ñ/ñ
         function quitarAcentos(str) {
             return str
                 .replace(/ñ/g, '__n__').replace(/Ñ/g, '__N__')
@@ -608,11 +640,9 @@
             elFeedback.className = `feedback-msg ${tipo}`;
         }
 
-        // Validador oficial del léxico en español (incluye RAE, gentilicios y conjugaciones)
         async function comprobarExistenciaPalabra(wordOriginal) {
             const palabraNorm = wordOriginal.trim().toLowerCase();
 
-            // 1. Wiktionary por título exacto (respeta la 'ñ' y gentiles como 'albaceteño')
             try {
                 const url = `https://es.wiktionary.org/w/api.php?action=query&titles=${encodeURIComponent(palabraNorm)}&format=json&origin=*`;
                 const res = await fetch(url);
@@ -621,7 +651,6 @@
                 if (pages && !pages['-1']) return true;
             } catch (e) {}
 
-            // 2. Búsqueda por coincidencia fonética/ortográfica
             try {
                 const urlSearch = `https://es.wiktionary.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(palabraNorm)}&format=json&origin=*`;
                 const resSearch = await fetch(urlSearch);
@@ -634,7 +663,6 @@
                 }
             } catch (e) {}
 
-            // 3. Fallback en API secundaria de diccionario español
             try {
                 const resDict = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/es/${encodeURIComponent(palabraNorm)}`);
                 if (resDict.ok) return true;
@@ -661,7 +689,6 @@
                 return;
             }
 
-            // Comprobar presencia de letras requeridas (tratando Ñ como N)
             const letrasPalabra = palabraNormalizada.split('');
             const contieneTodas = letrasActuales.every(letra => {
                 const idx = letrasPalabra.indexOf(letra);
@@ -678,7 +705,6 @@
                 return;
             }
 
-            // Comprobar existencia real en el diccionario RAE / español
             elValidateBtn.disabled = true;
             mostrarFeedback('Comprobando RAE...', '');
 
@@ -712,7 +738,7 @@
             }
 
             if (listaPalabrasGuardadas.length === 0) {
-                elWordList.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Aún no has validado ninguna palabra.</p>';
+                elWordList.innerHTML = '<p style="color: var(--text-muted); font-style: italic; text-align: center; width: 100%;">Aún no has validado ninguna palabra.</p>';
                 return;
             }
             
